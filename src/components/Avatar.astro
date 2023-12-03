@@ -1,9 +1,10 @@
 ---
 import {Image} from "astro:assets";
+import pic from "../assets/profile.jpg";
 const { size } = Astro.props;
 ---
 <div class="avatar transition ease-in-out hover:scale-[102%] block m-auto">
     <div class={size}>
-        <Image class="mask mask-circle" format="webp" width={300} height={300} src="/profile.jpg" alt="Profile image" />
+        <Image class="mask mask-circle" format="webp" width={300} height={300} src={pic} alt="Profile image" />
     </div>
 </div>
