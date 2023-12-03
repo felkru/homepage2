@@ -1,0 +1,11 @@
+---
+import {Image} from "astro:assets";
+const { description, src, quality } = Astro.props;
+---
+<Image
+        src={src}
+        alt={description}
+        quality={quality || "high"}
+        widths={[540, 720, 1300, 1920, 3840]}
+        sizes="(max-width: 700px) 95vw, (max-width: 2000px) 100vw, 2000px"
+/>

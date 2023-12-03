@@ -2,7 +2,7 @@
 title: "You can write blog posts if you want to"
 description: "Technically I made it very easy but I'm not sure if it's worth your time."
 pubDate: "Dec 02 2023"
-heroImage: "https://images.unsplash.com/photo-1677108167538-f34574c6c651?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+heroImage: "../../assets/cms.jpg"
 tags: ["particle physics", "informative"]
 published: true
 ---
