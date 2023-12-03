@@ -1,6 +1,6 @@
 ---
 const { title, img, desc, url, badge, tags, target = "_blank" } = Astro.props;
-import Photo from "./Photo.astro";
+import { Image } from "astro:assets";
 const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
 
 const images = import.meta.glob('/src/assets/*.{jpeg,jpg,png,gif,webp,avif}')
@@ -19,11 +19,13 @@ if (pattern.test(img)) {
     <div class="hero-content flex-col md:flex-row">
       {
         img && (
-          <Photo
+          <Image
             src={image}
-            description={title}
+            alt={title}
             quality="mid"
             class="max-w-full md:max-w-[13rem] rounded-lg"
+            widths={[540, 720, 1300, 1920, 3840]}
+            sizes="(max-width: 700px) 95vw, (max-width: 2000px) 100vw, 2000px"
           />
         )
       }
