@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HorizontalCard from "../components/HorizontalCard.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).filter((post) => post.data.published);
+
+const last_posts = posts.slice(0, 3);
+---
+
+<BaseLayout sideBarActiveItemID="home" title="Homepage">
+  <div class="pb-12 mt-5">
+    <div class="text-xl py-1">Hey there 👋</div>
+    <div class="text-5xl font-bold">I'm Julia Els</div>
+    <div class="text-3xl py-3 font-bold">Physics Student at RWTH Aachen</div>
+    <div class="py-2">
+      <text class="text-lg">
+        I love working on particle physics research and science communication. In my short career I interned at <a class="link" href="https://home.cern" target="_blank">CERN</a> and <a class="link" href="https://www.desy.de/" target="_blank">DESY</a>, wrote a paper and won at two science competitions <a class="link secondary" href="https://www.mnu.de/wettbewerbe#physikwettbewerb">Bundesweiter Physikwettbewerb</a> and <a class="link" href="https://www.bayer.com/media/jugend-forscht-physik/">Jugend Forscht</a>.
+        <!--In my free time I enjoy travelling and running.-->
+      </text>
+    </div>
+    <div class="mt-8">
+      <a class="btn" href="https://www.linkedin.com/in/julia-els-582710239/" target="_blank"> Let's connect!</a>
+      <a href="resume.pdf" target="_blank" class="btn btn-outline ml-5">
+        Download Resume
+      </a>
+    </div>
+  </div>
+
+  <div>
+    <div class="text-3xl w-full font-bold mb-2">Interested? Learn more below.</div>
+  </div>
+  <!-- featured links -->
+  <HorizontalCard
+      title= "Die 360° Kamera aus gebogenen Siliziumsensoren für Teilchenkollisionen am CERN"
+      img="../assets/setup.png"
+      desc="The paper I wrote while and after I was at CERN for the first time and published at Jugend Forscht"
+      url="https://www.teilchenwelt.de/wp-content/uploads/2023/06/Forschungsarbeit-Els-2022.pdf"
+      badge="German"
+  />
+  <div class="divider my-0"></div>
+  <HorizontalCard
+      title="24th IPOGG in 2022 at CERN"
+      img="../assets/ipogg.jpg"
+      desc="The IPOGG collaboration meeting is a conference for particle physics educators. As part of my internship at CERN I actively participated in their efforts to make particle physics more understanable."
+      url="https://indico.cern.ch/event/1185824/"
+      badge="English"
+  />
+<div class="divider my-0"></div>
+  <!-- Blog posts -->
+
+  {
+    last_posts.map((post) => {
+      if (post.data.published) {
+        return (
+            <>
+              <HorizontalCard
+                  title={post.data.title}
+                  img={post.data.heroImage}
+                  desc={post.data.description}
+                  url={"/blog/" + post.slug}
+                  target="_self"
+                  badge={post.data.badge}
+              />
+              <div class="divider my-0" />
+            </>
+        )
+      }
+    })
+  }
+  <a href="/work" class="btn btn-ghost">Learn more about my works...</a>
+
+
+</BaseLayout>
