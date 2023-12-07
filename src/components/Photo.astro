@@ -1,6 +1,6 @@
 ---
 import {Image} from "astro:assets";
-const { description, src, quality } = Astro.props;
+const { class: ClassName, description, src, quality, ...rest } = Astro.props;
 ---
 <Image
         src={src}
@@ -8,5 +8,6 @@ const { description, src, quality } = Astro.props;
         quality={quality || "high"}
         widths={[540, 720, 1300, 1920, 3840]}
         sizes="(max-width: 700px) 95vw, (max-width: 2000px) 100vw, 2000px"
-        class="max-w-full"
+        class={ClassName}
+        {...rest}
 />
