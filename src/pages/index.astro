@@ -8,7 +8,7 @@ const posts = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueO
 const last_posts = posts.slice(0, 3);
 ---
 
-<BaseLayout sideBarActiveItemID="home" title="Homepage">
+<BaseLayout sideBarActiveItemID="home" title="Homepage" description="">
   <div class="pb-12 mt-5">
     <div class="text-xl py-1">Hey there 👋</div>
     <div class="text-5xl font-bold">I'm Julia Els</div>
@@ -19,9 +19,9 @@ const last_posts = posts.slice(0, 3);
         <!--In my free time I enjoy travelling and running.-->
       </text>
     </div>
-    <div class="mt-8">
-      <a class="btn" href="https://www.linkedin.com/in/julia-els-582710239/" target="_blank"> Let's connect!</a>
-      <a href="resume.pdf" target="_blank" class="btn btn-outline ml-5">
+    <div class="mt-8 flex flex-col sm:flex-row">
+      <a class="btn mb-4" href="https://www.linkedin.com/in/julia-els-582710239/" target="_blank">Let's connect!</a>
+      <a href="https://drive.google.com/file/d/11C9tvxWAewVAvQmOwsgkgaJjbEObS7r4/" target="_blank" class="btn btn-outline sm:ml-5">
         Download Resume
       </a>
     </div>

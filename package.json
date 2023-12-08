@@ -9,7 +9,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "mobile-test": "ngrok http 4321"
   },
   "dependencies": {
     "@astrojs/mdx": "^2.0.0",
