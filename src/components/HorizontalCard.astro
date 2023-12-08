@@ -3,6 +3,7 @@ const { title, img, desc, url, badge, tags, target = "_blank" } = Astro.props;
 import { Image } from "astro:assets";
 const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
 
+
 const images = import.meta.glob('/src/assets/*.{jpeg,jpg,png,gif,webp,avif,svg}')
 let image = img;
 const pattern = /\..\//;
@@ -40,7 +41,7 @@ if (pattern.test(img)) {
             tags &&
               tags.map((tag) => (
                 <a href={`${tag_url}/${tag}`} class="badge badge-outline">
-                  {tag}
+                  {tag.toUpperCase()}
                 </a>
               ))
           }

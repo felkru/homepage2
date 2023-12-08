@@ -11,7 +11,7 @@ export async function getStaticPaths({ paginate }) {
 
   return all_tags.flatMap((tag) => {
     const filtred_posts = all_posts.filter((post) => {
-      return post.data.tags?.includes(tag);
+      return post.data.tags?.includes(tag) && post.data.published;
     });
     return paginate(filtred_posts, {
       params: { tag },
@@ -24,7 +24,7 @@ const { page } = Astro.props;
 const params = Astro.params;
 ---
 
-<BaseLayout title={"Blog - " + params.tag} sideBarActiveItemID="blog">
+<BaseLayout title={params.tag + "posts"} sideBarActiveItemID="blog">
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">Blog - {params.tag}</div>
   </div>

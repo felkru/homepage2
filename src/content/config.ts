@@ -7,9 +7,10 @@ const blogSchema = ({image}) => z.object({
         message: "Cover image must be at least 600 pixels wide!",
     }),
     published: z.boolean(),
+    homepage: z.boolean().optional(),
     updatedDate: z.string().optional(),
     badge: z.string().optional(),
-    has_content: z.boolean().optional(),
+    link: z.string().url().optional(),
     tags: z.array(z.string()).refine(items => new Set(items).size === items.length, {
         message: 'tags must be unique',
     }).optional(),
@@ -35,6 +36,5 @@ const blogCollection = defineCollection({ schema: blogSchema });
 const storeCollection = defineCollection({ schema: storeSchema });
 
 export const collections = {
-    'blog': blogCollection,
-    'store': storeCollection
+    'blog': blogCollection
 }

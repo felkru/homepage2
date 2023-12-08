@@ -8,7 +8,7 @@ export async function getStaticPaths() {
   return postEntries.map((entry) => ({
     params: { slug: entry.slug },
     props: { entry },
-  }));
+  })).filter((entry) => entry.props.entry.data.published && !entry.props.entry.data.link);
 }
 
 interface Props {
