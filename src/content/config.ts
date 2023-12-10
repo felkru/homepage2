@@ -3,9 +3,7 @@ const blogSchema = ({image}) => z.object({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
-    heroImage: image().refine((img) => img.width >= 600, {
-        message: "Cover image must be at least 600 pixels wide!",
-    }),
+    heroImage: image(),
     published: z.boolean(),
     homepage: z.boolean().optional(),
     updatedDate: z.string().optional(),

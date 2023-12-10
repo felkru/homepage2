@@ -1,52 +1,65 @@
 ---
 const { title, img, desc, url, badge, tags, target = "_blank" } = Astro.props;
 import { Image } from "astro:assets";
-const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
+// Currently the component only supports tags for articles at the root level: juliaels.com/blog/
+// This is what the tag url looked like before, but this only works for normal blog posts, not for blog link
+// const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
+const tag_url = "/blog/tag";
 
-
-const images = import.meta.glob('/src/assets/*.{jpeg,jpg,png,gif,webp,avif,svg}')
+const images = import.meta.glob(
+    "/src/assets/*.{jpeg,jpg,png,gif,webp,avif,svg}"
+);
 let image = img;
 const pattern = /\..\//;
 if (pattern.test(img)) {
-  const path = "/src" + img.slice(2);
-  image = images[path]();
+    const path = "/src" + img.slice(2);
+    image = images[path]();
 }
 ---
 
 <div
-  class="rounded-lg bg-base-100 hover:shadow-xl transition ease-in-out hover:scale-[102%]"
+    class="rounded-lg bg-base-100 hover:shadow-xl transition ease-in-out hover:scale-[102%]"
 >
-  <a href={url} target={target}>
-    <div class="hero-content flex-col md:flex-row">
-      {
-        img && (
-          <Image
-            src={image}
-            alt={title}
-            quality="mid"
-            class="max-w-full md:max-w-[13rem] rounded-lg"
-            widths={[540, 720, 1300, 1920, 3840]}
-            sizes="(max-width: 700px) 95vw, (max-width: 2000px) 100vw, 2000px"
-          />
-        )
-      }
-      <div class="grow w-full">
-        <h1 class="text-xl font-bold">
-          {title}
-          {badge && <div class="badge badge-secondary mx-2">{badge.toUpperCase()}</div>}
-        </h1>
-        <p class="py-1 text-1xl">{desc}</p>
-        <div class="card-actions justify-end">
-          {
-            tags &&
-              tags.map((tag) => (
-                <a href={`${tag_url}/${tag}`} class="badge badge-outline">
-                  {tag.toUpperCase()}
-                </a>
-              ))
-          }
+    <a href={url} target={target}>
+        <div class="hero-content flex-col md:flex-row">
+            {
+                img && (
+                    <Image
+                        src={image}
+                        alt={title}
+                        quality="mid"
+                        class="max-w-full md:max-w-[13rem] rounded-lg"
+                        widths={[540, 720, 1300, 1920, 3840]}
+                        sizes="(max-width: 700px) 95vw, (max-width: 2000px) 100vw, 2000px"
+                    />
+                )
+            }
+            <div class="grow w-full">
+                <h1 class="text-xl font-bold">
+                    {title}
+                    {
+                        badge && (
+                            <div class="badge badge-secondary mx-2">
+                                {badge.toUpperCase()}
+                            </div>
+                        )
+                    }
+                </h1>
+                <p class="py-1 text-1xl">{desc}</p>
+                <div class="card-actions justify-end">
+                    {
+                        tags &&
+                            tags.map((tag) => (
+                                <a
+                                    href={`${tag_url}/${tag}`}
+                                    class="badge badge-outline"
+                                >
+                                    {tag.toUpperCase()}
+                                </a>
+                            ))
+                    }
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </a>
+    </a>
 </div>

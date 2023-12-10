@@ -1,0 +1,10 @@
+---
+const { number_of_pages, url, ...rest } = Astro.props;
+---
+
+<iframe
+    class={`w-full md:w-[90vw] lg:w-[65vw] max-w-[810px] aspect-${number_of_pages}xA4`}
+    src={url}
+    {...rest}
+    >Reload the page or use another browser to view my resume...</iframe
+>

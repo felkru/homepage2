@@ -1,280 +1,156 @@
-# Astrofy | Personal Portfolio Website Template
+# Julias Website
 
-![Astrofy | Personal Porfolio Website Template](public/social_img.png)
+Diese Website ist für dich. Sie soll dir helfen zu kontrollieren was man über dich auf Google findet und dafür sorgen, dass mehr Menschen einen positiven Eindruck von dir bekommen. Ich hoffe du hast etwas davon ❤️
 
-Astrofy is a free and open-source template for your Personal Portfolio Website built with Astro and TailwindCSS. Create in minutes a website with a Blog, CV, Project Section, Store, and RSS Feed.
+## Wie du deine Website bearbeitest
 
-## Demo
+Du befindest dich grade im Github deiner neuen Website.
 
-View a live demo of [Astrofy](https://astrofy-template.netlify.app/)
+Du brauchst Node. Das installierst du am besten mit [Homebrew](https://brew.sh/). Homebrew ist ein Paketmanager für Mac. Du kannst es mit diesem Befehl installieren:
 
-## Installation
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
-Run the following command in your terminal
+Anschließend installierst du Node Version 18 mit diesem Befehl:
+
+```bash
+brew install node@18
+```
+
+Jetzt kannst du die Website bearbeiten. Dazu musst du sie zuerst auf deinen eigenen Rechner herunterladen. Navigiere erstmal in deinen Documents Folder und da dann noch an eine passende Stelle. Das könnte z.B. so ausshenen:
+
+In den Documents Folder navigieren:
+
+```bash
+cd ~/Documents
+```
+
+Den Ordner "Websites" erstellen und in diesen navigieren:
+
+```bash
+mkdir Websites
+cd Websites
+```
+
+Jetzt kannst du die Website herunterladen.
+Das machst du mit diesem Befehl:
+
+```bash
+brew install git
+git clone https://github.com/felkru/juliaswebsite.git
+```
+
+Anschließend öffnest du die Website in VSCode. Das machst du mit diesem Befehl:
+
+```bash
+brew install code-cli
+code juliaswebsite
+```
+
+Im Terminal von VSCode kannst du jetzt die Website starten. Drücke einfach Control + Shift + ` (die liegen alle ganz unten links). Jetzt kannst du die notwendigen Pakete installieren und den Entwicklungsserver starten. Das machst du mit diesen Befehlen:
 
 ```bash
 npm install
-```
-
-Once the packages are installed you are ready to run astro. Astro comes with a built-in development server that has everything you need for project development. The astro dev command will start the local development server so that you can see your new website in action for the very first time.
-
-```bash
 npm run dev
 ```
 
-## Tech Stack
+Sobald du jetzt Änderungen an der Website vornimmst und speicherst werden diese automatisch im Browser angezeigt. Du kannst die Website unter [http://localhost:4321](http://localhost:4321) aufrufen.
 
-- [Astro](https://astro.build)
-- [tailwindcss](https://tailwindcss.com/)
-- [DaisyUI](https://daisyui.com/)
+### Einen Blogartikel schreiben
 
-## Project Structure
+Blogartikel liegen unter `/src/content/blog`. Bitte tue deine Blogs dort nicht in Unterordner. Um die Artikel und Links zu sortieren gibt es das Tag system. Klickt man auf die Tags unter dem Blog kann man alle Artikel in der selben Kategorie finden und z.B. nach Deutsch und Englisch sortieren ohne manuell Ordner erstellen zu müssen. Schau dir mal [diesen Post](https://juliaels.com/blog/demo) an um zu sehen was du z.B. so in deine Blogartikel einfügen kannst. Am besten duplizierst du einfach `demo.mdx` und benennst sie um. Die Datei muss mit `.mdx` enden. Du kannst sie z.B. `mein-blogartikel.mdx` nennen.
+Um Markdown zu editieren empfehle ich dir [diese](https://marketplace.visualstudio.com/items?itemName=zaaack.markdown-editor) und [diese](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) Erweiterung in VS-Code zu installieren. Jetzt machst du einen Rechtsklick auf die `.mdx` Dateie die du editieren möchtest und klickst auf `Open with markdown editor`, um zusätzlich zum Code Editor den visuellen Editor zu öffnen. Der funktioniert fast wie Word. Wenn du fertig mit dem editieren bist speicher erst im visuellen Editor und dann noch einmal im Code Editor um die Änderungen im Browser sehen zu können.
 
-```php
-├── src/
-│   ├── components/
-│   │   ├── cv/
-│   │   │   ├── TimeLine
-│   │   ├── BaseHead.astro
-│   │   ├── Card.astro
-│   │   ├── Footer.astro
-│   │   ├── Header.astro
-│   │   └── HorizontalCard.astro
-│   │   └── SideBar.astro
-│   │   └── SideBarMenu.astro
-│   │   └── SideBarFooter.astro
-│   ├── content/
-│   │   ├── blog/
-│   │   │   ├── post1.md
-│   │   │   ├── post2.md
-│   │   │   └── post3.md
-│   │   ├── store/
-│   │   │   ├── item1.md
-│   │   │   ├── item2.md
-│   ├── layouts/
-│   │   └── BaseLayout.astro
-│   │   └── PostLayout.astro
-│   └── pages/
-│   │   ├── blog/
-│   │   │   ├── [...page].astro
-│   │   │   ├── [slug].astro
-│   │   └── cv.astro
-│   │   └── index.astro
-│   │   └── projects.astro
-│   │   └── rss.xml.js
-│   └── styles/
-│       └── global.css
-├── public/
-│   ├── favicon.svg
-│   └── social-image.png
-│   └── sprofile.jpg
-│   └── social_img.webp
-├── astro.config.mjs
-├── tailwind.config.cjs
-├── package.json
-└── tsconfig.json
+### Einen Link veröffentlichen
+
+Links sind wie Blogartikel. Nur, dass sie oben zwischen den zwei `---` ein zusätzliches Feld haben. Das sieht so aus:
+
+```md
+---
+andere Felder: "können hier stehen"
+link: "https://juliaels.com/first_publication.pdf"
+---
+
+Der Inhalt unter den 3 Strichen ist bei Link-Posts egal.
 ```
 
-### Components usage
+### Text der Startseite ändern
 
-#### Layout Components
+Die Startseite liegt unter `/src/pages/index.astro`. Lass dich nicht von den vielen Zeichen einschüchtern. Du kannst den Text einfach anpassen. Speicherst du, siehst du deine Änderungen sofort im Browser.
 
-The `BaseHead`, `Footer`, `Header`, and `SideBar` components are already included in the layout system. To change the website content you can edit the content of these components.
+### Blogartikel zur Startseite hinzufügen
 
-##### SideBar
+Die Homepage zeigt die Blogartikel an bei deinen `homepage: true` gesezt wurde. Die neusten Posts zuerst, dann die älteren. Es orientiert sich an `pubDate: "aktuelles Datum"`.
 
-In the Sidebar you can change your profilePicture, links to all your website pages, and your social icons.
+### Formeln
 
-You can change your avatar shape using [mask classes](https://daisyui.com/components/mask/).
+Ich dachte mir, für dich als Physikerin könnten Formeln hilfreich sein. Also: Habe ich die Möglichkeit eingebaut mit Latex Formeln zu generieren.
+Das geht so:
 
-The used social-icons are SVG form [BoxIcons](https://boxicons.com/) pack. You can replace the icons in the `SideBarFooter` component
-
-To add a new page in the sidebar go to the `SideBarMenu` component.
-
-```
-<li><a class="py-3 text-base" id="home" href="/">Home</a></li>
-
+```md
+$E = mc^2$
 ```
 
-**Note**: In order to change the sidebar menu's active item, you need to setup the prop `sideBarActiveItemID` in the `BaseLayout` component of your new page and add that id to the link in the `SideBarMenu`
+### Bilder einfügen
 
-#### TimeLine
+Leider ist das einfügen von Bilder noch nicht 100% einfach. Alle Bilder liegen unter `/src/assets`. Du kannst sie einfach in diesen Ordner kopieren und dann in deinen Blogartikel einfügen. Das machst indem du im Code-Editor an der entsprechenden Stelle folgendes einfügst:
 
-The timeline components are used to confirm the CV.
+```md
+![quark](../../assets/quark.jpeg)
+```
+
+### Deinen Lebenslauf aktualisieren oder PDFs einfügen
+
+Tatsächlich musst du deinen Lebenlauf nicht einmal als PDF einbinden. Wenn du möchtest kannst du deinen [Lebenslauf interaktiv](http://localhost:4321/interactive-resume) machen und die PDF aus dem interaktiven Lebenslauf generieren. Frag mich einfach wie das geht, falls es dich interessiert.
+
+Ansonsten kannst du deinen Lebenslauf aber auch einfach als PDF bei Google Drive hochladen. Die Datei machst du dann öffentlich sichtbar und kopierst dir den Link. Anfangs wird der Link etwa so aussehen `https://drive.google.com/file/d/11C9tvxWAewVAvQmOwsgkgaJjbEObS7r4/view?usp=drive_link` Du musst den Link aber noch etwas anpassen. Er sollte am Ende so aussehen: `https://drive.google.com/file/d/11C9tvxWAewVAvQmOwsgkgaJjbEObS7r4/preview` Du musst also nur `view?usp=drive_link` durch `preview` ersetzen.
+
+Anschließend kannst du die URL der PDF Komponente in der Datei `src/pages/resume.astro` anpassen. Die sieht so aus:
 
 ```html
-<div class="time-line-container">
-  <TimeLineElement title="Element Title" subtitle="Subtitle">
-    Content that can contain
-    <div>divs</div>
-    and <span>anything else you want</span>.
-  </TimeLineElement>
-  ...
-</div>
-```
-
-#### Card & HorizontalCard
-
-The cards are primarly used for the Project and the Blog components. They include a picture, a title, and a description. 
-
-```html
-<HorizontalCard title="Card Title" img="imge_url" desc="Description" url="Link
-URL" target="Optional link target (_blank default)" badge="Optional badge"
-tags={['Array','of','tags']} />
-```
-
-#### HorizontalCard Shop Item
-
-
-This component is already included in the Store layout of the template. In case you want to use it in another place these are the props.
-
-```html
-<HorizontalShopItem
-  title="Item Title"
-  img="imge_url"
-  desc="Item description"
-  pricing="current_price"
-  oldPricing="old_price"
-  checkoutUrl="external store checkout url"
-  badge="Optional badge"
-  url="item details url"
-  custom_link="Custom link url"
-  custom_link_label="Cutom link btn label"
-  target="Optional link target (_self default)"
+<PDF
+    src="https://drive.google.com/file/d/11C9tvxWAewVAvQmOwsgkgaJjbEObS7r4/preview"
+    number_of_pages="2"
 />
 ```
 
-#### Adding a Custom Component
-
-To add a custom component, you can create a .astro file in the components folder under the source folder. 
-
-Components must follow this template. The ```---``` represents the code fence and uses Javascript and can be used for imports. 
-
-The HTML component is the actual style of your new component. 
-
-```html
----
-// Component Script (JavaScript)
----
-<!-- Component Template (HTML + JS Expressions) -->
-```
-
-For more details, see the [astro components](https://docs.astro.build/en/core-concepts/astro-components/) documentation here. 
-
-### Layouts
-
-Include `BaseLayout` in each page you add and `PostLayout` to your post pages.
-
-The BaseLayout defines a general template for each new webpage you want to add. It imports constants SITE_TITLE and SITE_DESCRIPTION which can be modified in the ```../config``` folder. Data placed there can be imported anywhere using import. 
-
-### Content
-
-You can add a [content collection](https://docs.astro.build/en/guides/content-collections/) in `/content/' folder, you will need add it at config.ts.
-
-#### config.ts
-
-Where you need to define your content collections, we define our content schemas too.
-
-#### Blog
-
-Add your `md` blog post in the `/content/blog/` folder.
-
-##### Post format
-
-Add code with this format in the top of each post file.
-
-```
----
-title: "Post Title"
-description: "Description"
-pubDate: "Post date format(Sep 10 2022)"
-heroImage: "Post Hero Image URL"
----
-```
-
-### Pages
-
-#### Blog
-
-Blog uses Astro's content collection to query post's `md`.
-
-##### [page].astro
-
-The `[page].astro` is the route to work with the paginated post list. You can change there the number of items listed for each page and the pagination button labels.
-
-##### [slug].astro
-
-The `[slug].astro` is the base route for every blog post, you can customize the page layout or behaviour, by default uses `content/blog` for content collection and `PostLayout` as layout.
-
-#### Shop
-
-Add your `md` item in the `/pages/shop/` folder.
-
-##### [page].astro
-
-The `[page].astro` is the route to work with the paginated item list. You can change there the number of items listed for each page and the pagination button labels. The shop will render all `.md` files you include inside this folder.
-
-##### Item format
-
-Add code with this format at the top of each item file.
+Wenn du PDFs z.B. in einen Blogartikel einfügen möchtest lädst du die Datei wieder auf Drive hoch, generierst die Link wie oben beschrieben und fügst dann unterhalb der 3 Striche `---` folgenden Code ein:
 
 ```js
----
-title: "Demo Item 1"
-description: "Item description"
-heroImage: "Item img url"
-details: true // show or hide details btn
-custom_link_label: "Custom btn link label"
-custom_link: "Custom btn link"
-pubDate: "Sep 15 2022"
-pricing: "$15"
-oldPricing: "$25.5"
-badge: "Featured"
-checkoutUrl: "https://checkouturl.com/"
----
+import PDF from "@components/PDF.astro";
 ```
 
-#### Static pages
+Anschließend kannst du die PDF Komponente einfügen:
 
-The other pages included in the template are static pages. The `index` page belongs to the root page. You can add your pages directly in the `/pages` folder and then add a link to those pages in the `sidebar` component.
+```html
+<PDF src="link" number_of_pages="5" />
+```
 
-Feel free to modify the content included in the pages that the template contains or add the ones you need.
+Mögliche Werte für number_of_pages sind 1, 2, 3, 4, 5, 10, 20. Wenn du mehr Seiten hast solltest du 1 angeben.
 
-### Theming
+### Ungewöhnlichere Dinge wie z.B. interatkive Charts aus Matplotlib in deine Posts einfügen
 
-To change the template theme change the `data-theme` attribute of the `<html>` tag in `BaseLayout.astro` file.
+Deine Möglichkeiten coole interaktive Dinge in deinen Blog einzufügen sind nur auf das begrenzt was Browser könnend. Viele Dinge wurden sogar schon programmiert so, dass es fast keine Arbeit ist diese zu implementieren. Beispielsweise kannst du das wie [hier](https://juliaels.com/blog/demo#paper) benutzen um ansprechender zu anderen Seiten zu verlinken:
 
-You can choose among 30 themes available or create your custom theme. See themes available [here](https://daisyui.com/docs/themes/).
+`<HorizontalCard
+    title="Die 360° Kamera aus gebogenen Siliziumsensoren für Teilchenkollisionen am CERN"
+    img="../assets/setup.png"
+    desc="The paper I wrote while and after I was at CERN for the first time and published at Jugend Forscht"
+    url="https://juliaels.com/first_publication.pdf"
+    badge="German"
+/>`
 
-## Sitemap
+Frag mich einfach wenn du eine Idee hast was du machen möchtest oder es einfach interessant findest. Ich helfe dir gerne.
 
-The Sitemap is generated automatically when you build your website in the root of the domain. Please update the `robots.txt` file in the public folder with your site name URL for the Sitemap.
+### Deine Änderungen veröffentlichen
 
-## Deploy
+Wenn du fertig mit deinen Änderungen bist kannst du sie automatisch veröffentlichen indem du sie auf Github hochlädst. Führe dazu folgende Befehle im obersten Projektordner aus:
 
-You can deploy your site on your favourite static hosting service such as Vercel, Netlify, GitHub Pages, etc.
+```bash
+git add .
+git commit -m "Deine Nachricht"
+git push
+```
 
-The configuration for the deployment varies depending on the platform where you are going to do it. See the [official Astro information](https://docs.astro.build/en/guides/deploy/) to deploy your website.
-
-> **⚠️ CAUTION** </br>
-> The Blog pagination of this template is implemented using dynamic route parameters in its filename and for now this format is incompatible with SSR deploy configs, so please use the default static deploy options for your deployments.
-
-## Contributing
-
-Suggestions and pull requests are welcomed! Feel free to open a discussion or an issue for a new feature request or bug.
-
-One of the best ways to contribute is to grab a [bug report or feature suggestion](https://github.com/manuelernestog/astrofy/issues) that has been marked `accepted` and dig in.
-
-Please be wary of working on issues _not_ marked as `accepted`. Just because someone has created an issue doesn't mean we'll accept a pull request for it.
-
-## License
-
-Astrofy is licensed under the MIT license — see the [LICENSE](https://github.com/manuelernestog/astrofy/blob/main/LICENSE) file for details.
-
-## Contributors
-
-<a href="https://github.com/manuelernestog/astrofy/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=manuelernestog/astrofy" />
-</a>
-
-Made with [contrib.rocks](https://contrib.rocks).
+Nach etwa 20 Sekunden sollte sich deine Website auch auf [juliaels.com](https://juliaels.com) aktualisiert haben.
