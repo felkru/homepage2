@@ -24,7 +24,7 @@ const { page } = Astro.props;
 const params = Astro.params;
 ---
 
-<BaseLayout title={params.tag + "posts"} sideBarActiveItemID="blog">
+<BaseLayout title={params.tag + " posts"} sideBarActiveItemID="blog">
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">Blog - {params.tag}</div>
   </div>
@@ -32,24 +32,42 @@ const params = Astro.params;
     page.data.length === 0 ? (
       <div class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full">
         <p class="font-bold">Sorry!</p>
-        <p>There are no blog posts to show at the moment. Check back later!</p>
+        <p>There are no blog posts for this filter. Check back later!</p>
       </div>
     ) : (
       <ul>
-        {page.data.map((post) => (
-          <>
-            <HorizontalCard
-              title={post.data.title}
-              img={post.data.heroImage}
-              desc={post.data.description}
-              url={"/blog/" + post.slug}
-              target="_self"
-              badge={post.data.badge}
-              tags={post.data.tags}
-            />
-            <div class="divider my-0" />
-          </>
-        ))}
+        {page.data.map((post) => {
+          if (post.data.link) {
+            return (
+                <>
+                  <HorizontalCard
+                      title={post.data.title}
+                      img={post.data.heroImage}
+                      desc={post.data.description}
+                      url={post.data.link}
+                      target="_blank"
+                      badge={post.data.badge}
+                      tags={post.data.tags}
+                  />
+                  <div class="divider my-0" />
+                </>
+            );
+          } else {
+            return (
+                <>
+                  <HorizontalCard
+                      title={post.data.title}
+                      img={post.data.heroImage}
+                      desc={post.data.description}
+                      url={"/blog/" + post.slug}
+                      target="_self"
+                      badge={post.data.badge}
+                      tags={post.data.tags}
+                  />
+                  <div class="divider my-0"/>
+                </>)
+          }
+        })}
       </ul>
     )
   }

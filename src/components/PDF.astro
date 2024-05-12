@@ -1,11 +1,12 @@
 ---
 const { number_of_pages, url, ...rest } = Astro.props;
+console.log(number_of_pages)
 ---
 
 <iframe
-    class={`w-full md:w-[90vw] lg:w-[65vw] max-w-[810px] aspect-${number_of_pages}xA4`}
+    class:list={["w-full", "md:w-[90vw]", "lg:w-[65vw]", "max-w-[810px]", "aspect-" + number_of_pages + "xA4"]}
     src={url}
     {...rest}
     >Reload the page or use another browser to view my resume...</iframe
 >
-<div class="aspect-2xA4 hidden"></div>
+<div class={`aspect-${number_of_pages}xA4 hidden`}></div>

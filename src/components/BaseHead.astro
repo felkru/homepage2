@@ -10,6 +10,10 @@ export interface Props {
 }
 
 const { title, description, image = '/social_img.png' } = Astro.props;
+
+const fullName = import.meta.env.PUBLIC_FULL_NAME;
+const firstName = import.meta.env.PUBLIC_FNAME;
+const gender = import.meta.env.PUBLIC_GENDER;
 ---
 
 <!-- Global Metadata -->
@@ -18,9 +22,9 @@ const { title, description, image = '/social_img.png' } = Astro.props;
 <meta name="generator" content={Astro.generator} />
 
 <!-- Primary Meta Tags -->
-<title>Julia Els  - {title}</title>
+<title>{firstName}'s {title}</title>
 <meta name="title" content={title} />
-<meta name="description" content={description ? description : "Julia's personal website. Learn about Julia Els's projects, hobbys and where else you can find her. You can also get in touch with her here."} />
+<meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
@@ -37,7 +41,7 @@ const { title, description, image = '/social_img.png' } = Astro.props;
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
 <!-- favicons -->
-<link rel="icon" href="https://www.juliaels.com/favicon.ico" sizes="48x48">
+<link rel="icon" href={import.meta.env.PUBLIC_SITE_URL + "/favicon.ico"} sizes="48x48">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="msapplication-TileColor" content="#da532c">

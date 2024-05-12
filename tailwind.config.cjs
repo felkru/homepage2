@@ -7,7 +7,7 @@ module.exports = {
                 "1xA4": "210/297",
                 "2xA4": "105/297",
                 "3xA4": "70/297",
-                "4xA4": "52/297",
+                "4xA4": "53/297",
                 "5xA4": "42/297",
                 "10xA4": "21/297",
             },
@@ -18,15 +18,15 @@ module.exports = {
         themes: [
             {
                 mytheme: {
-                    primary: "#FF5CE4",
-                    secondary: "#F6A2E5",
-                    accent: "#6D2197",
-                    neutral: "#ffaadd",
-                    "base-100": "#fffbff",
-                    info: "#ffaadd",
-                    success: "#F500CC",
-                    warning: "#a447d7",
-                    error: "#ffffff",
+                    primary: "#f17f38",
+                    secondary: "#f6c5a2",
+                    accent: "#f12828",
+                    neutral: "#ffd5aa",
+                    "base-100": "#fffbf8",
+                    info: "#ffd0aa",
+                    success: "#f54a00",
+                    warning: "#d74747",
+                    error: "#ff0000",
                 },
             },
         ], // true: all themes | false: only light + dark | array: specific themes like this ["light", "dark", "cupcake"]

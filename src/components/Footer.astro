@@ -1,9 +1,11 @@
 ---
 const today = new Date();
+
+const fullName = import.meta.env.PUBLIC_FULL_NAME;
 ---
 
 <footer class="footer footer-center block mb-5 pt-10">
-    &copy; {today.getFullYear()} Julia Els
+    &copy; {today.getFullYear()} {fullName}
 </footer>
 <style>
 

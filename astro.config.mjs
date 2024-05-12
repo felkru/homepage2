@@ -7,7 +7,7 @@ import rehypeKatex from "rehype-katex";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.juliaels.com',
+  site: 'https://www.felkru.com',
   integrations: [mdx(), sitemap(), tailwind()],
   markdown: {
     remarkPlugins: [
