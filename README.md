@@ -9,3 +9,5 @@ Now you can start the development server with:
 ```bash
 npm run dev 
 ```
+
+Store your secrets in the .env.local file. Not the normal .env file!
