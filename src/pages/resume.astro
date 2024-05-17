@@ -5,8 +5,9 @@ import PDF from "@components/PDF.astro";
 
 <BaseLayout title="Resume" sideBarActiveItemID="cv">
     <PDF
-        src={import.meta.env.PUBLIC_RESUME_URL + "preview"}
-        number_of_pages='4'
-        class="aspect-4xA4"
+            src={import.meta.env.PUBLIC_RESUME_URL + "preview"}
+            number_of_pages='4'
+            class="aspect-4xA4"
     />
 </BaseLayout>
+

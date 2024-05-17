@@ -6,13 +6,18 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 
 export interface Props extends BlogSchema {}
 
-const { title, description, pubDate, updatedDate, heroImage, badge, tags = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, badge, stylesheet, tags = [] } = Astro.props;
 dayjs.extend(localizedFormat);
 const displayDate = dayjs(pubDate).format("ll")
 import Photo from "../components/Photo.astro";
+// TODO: find out how to make styles work so i can customize my blogposts
+// import(stylesheet).then((mod) => mod.default).catch((e) => console.error("couldn't find your stylesheet. Error:"  + e));
 ---
 
 <BaseLayout title={title} description={description} image={heroImage}>
+  <!-- plotly -->
+  <script is:inline src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
   <main class="md:flex md:justify-center">
     <article class="prose prose-lg max-w-[750px] prose-img:mx-auto">
       {heroImage && <Photo src={heroImage} description={title} quality="mid" class="w-full mb-6" />}
@@ -41,3 +46,4 @@ import Photo from "../components/Photo.astro";
     </article>
   </main>
 </BaseLayout>
+

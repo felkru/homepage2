@@ -9,6 +9,7 @@ const blogSchema = ({image}) => z.object({
     updatedDate: z.string().optional(),
     badge: z.string().optional(),
     link: z.string().url().optional(),
+    stylesheet: z.string().optional(),
     tags: z.array(z.string()).refine(items => new Set(items).size === items.length, {
         message: 'tags must be unique',
     }).optional(),

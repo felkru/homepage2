@@ -1,0 +1,162 @@
+---
+title: "Comparing University Rankings using Data Science"
+description: "Explore how data science techniques can provide insights into university rankings by comparing the research output of prestigious institutions like MIT, Oxford, and ETH Zürich with lesser-known universities. This article delves into web scraping, statistical analysis, and visualization to challenge assumptions about research productivity across universities."
+pubDate: "May 17 2024"
+heroImage: "../../assets/weighingscale.jpg"
+tags: ["Language: English", "University Rankings", "Data Science", "Python", "Students"]
+published: true
+homepage: true
+---
+import H2_Banner from '../../components/H2_Banner.astro'
+import Plotly from '../../components/Plotly/lognorm_fits.astro'
+export const components = {h2: H2_Banner}
+
+The pursuit of academic excellence has long been the hallmark of leading universities worldwide. Many students, academics, and researchers rely on ranking systems when choosing institutions, especially in specialized fields like computer science. But, do these rankings reflect the research output of scientists at these institutions?
+
+This article aims to compare the research quality of scientists at the most prestigious universities worldwide such as MIT, Oxford University, and ETH Zürich with that of scientists at lesser known universities like RWTH Aachen University. The authors scraped and analyzed bibliographic data to compare the research output across institutions. The preliminary results of this work suggest that lesser-known institutions could offer equally productive research environments.
+
+## Preliminaries
+Research.com uses the D-index (Discipline H-index), instead of the H-index, which ["takes into account only papers and citation data for an examined discipline."](https://arc.net/l/quote/wmspfhbg). The [H-index](https://en.wikipedia.org/wiki/H-index#Calculation) is a metric that combines the number of publications and the number of citations to those publications. It is a widely used metric to evaluate the impact of a researcher's work.
+
+In the following work the term 'research output' is used to refer to the D-index of a researcher, although there are many scientific and societal contributions that this metric does not reflect.
+
+## Materials and Methods
+
+To address the research question of how individual research output differs across top-tier and lesser-known universities, we applied a series of data science techniques involving web scraping, data analysis, and statistical evaluation. Bibliographic data, including the D-index (Discipline H-index), citation counts, and publication numbers, was scraped from Research.com for four universities: MIT, Oxford University, ETH Zürich, and RWTH Aachen University.
+
+The analysis followed a multi-step process:
+
+1.	Data Scraping: Web scraping was employed to collect HTML data from ranking pages of the target universities.
+2.	Data Cleaning and Structuring: Extracted data was processed using Python’s BeautifulSoup library to create structured datasets in the form of CSV files.
+3.	Statistical Analysis: We employed a lognormal distribution fit for the D-index data and conducted Kolmogorov-Smirnov (K-S) tests to compare the similarity in distributions of research outputs across universities.
+4.	Visualization: Custom visualizations were generated using Plotly and matplotlib to compare cumulative research outputs and the distribution fits between universities.
+
+The libraries and tools used were:
+
+- `BeautifulSoup` for scraping and parsing
+- `pandas` for data manipulation
+- `scipy.stats` for statistical analysis and distribution fitting
+- `plotly` for visualizations
+
+
+### Web Scraping
+
+Bibliographic (H-index like data) for this project was scraped from the [Research.com Computer Science University Ranking](https://research.com/university-rankings/computer-science) of [MIT](https://research.com/university/computer-science/mit), [ETH](https://research.com/university/computer-science/eth-zurich), [Oxford](https://research.com/university/computer-science/university-of-oxford) and [RWTH](https://research.com/university/computer-science/rwth-aachen-university) on the 5th of August 2024.
+
+HTML Data was fetched using the Chrome Browser and copied using the following method `Inspect > Select Body Element >  Copy Element`. This method ensures data quality is not compromised by anti-bot measures of the website. For Rankings with more than 100 entries, two seperate webpages had to be scraped and later combined due to pagination of the ranking table.
+
+### Data Cleaning and Structuring
+The Python package `BeautifulSoup` was used to compile a python dataframe, containing researcher D-index, citations, and publication counts, from multiple HTML files. Data was then saved as a .csv file for later processing.
+
+This illustrative code snippet is shortened and simplified for clarity:
+```python
+# create a list of all html elements with the css class '.scientst-item'
+rows = soup.select('.scientist-item')
+
+for i, row in enumerate(rows):
+    # select all text in the first h4 element of the scientist element
+    researcher = row.select_one('h4').text.strip()
+    # select the text from the first span element with the class sh
+    university, country = row.select_one('span.sh').text.split(',')
+    # get a list of all spans that are nested two levels deep in a span with the class rankings-info
+    spanlist = row.select('span.rankings-info > span > span')
+    d_index = spanlist[1].text.strip()
+    citation = spanlist[3].text.strip()
+    publication = spanlist[4].text.strip()
+
+    researchers.append(researcher)
+    universities.append(university)
+    [...]
+
+data = { 'Researcher': researchers, 'D-index': d_indicies,, [...] }
+df = pd.DataFrame(data)
+
+# save df as csv
+df.to_csv(f'./data/{df['University Name'][0]}.csv')
+```
+
+For example, after scraping the data, the following dataframe was generated for Oxford University, showing the D-index, citations, and publications of its top computer science researchers. Notice that the order of researchers in the dataframe is the same as in the rankings table.
+
+| Researcher      | H-index | Citations | Publications | University Name   | Country  |
+|-----------------|---------|-----------|--------------|-------------------|----------|
+| Andrew Zisserman| 188     | 282705    | 782          | University of Oxford| UK      |
+| Philip Torr     | 122     | 76631     | 576          | University of Oxford| UK      |
+
+The data was verified by checking the first and last entries of the table respectively, sparsely checking the data randomly and verifying the length of the table.
+
+## Statistical Analysis
+
+The authors employed the Kolmogorow-Smirnow-Test to assess whether research outputs with a p-value of 0.05, as measured by the D-index, follow the same distribution across different universities. The K-S test was applied between RWTH Aachen University and the other universities.
+
+Below is a summary of the K-S test results:
+
+| University Comparison         | K-S Test Statistic | p-value        |
+|-------------------------------|--------------------|----------------|
+| MIT vs RWTH Aachen             | 0.183597           | 0.338938       |
+| Oxford vs RWTH Aachen          | 0.097480           | 0.983596       |
+| ETH Zurich vs RWTH Aachen      | 0.132933           | 0.807349       |
+
+The p-values from the K-S test show that none of the differences between the distributions are statistically significant. This suggests that the hypothesis that individual researchers at RWTH Aachen University produce work comparable to those at more prestigious institutions like MIT or Oxford holds. Researchers should consider the fact that the differences in individual research output across these universities are minimal.
+
+## Visualization
+
+To illustrate these findings one can use a empirical cumulative distribution function (CDF) plot. It also highlights how closely the observed distributions align with the fitted lognormal curves.
+
+The below code snippet illustrates how data was modified to achieve a CDF plot:
+
+```python
+normalize_01 = lambda data: (data - np.min(data)) / (np.max(data) - np.min(data))
+
+plot_x, plot_y = university['D-index'], 1 - normalize_01(range(len(university)))
+```
+
+As the dataframes are sorted by D-index rank this is equivalent to the empirical CDF, so for a dataset of ranks $ r $, the CDF at a specific rank $ r_i $ is given by:
+
+$$
+F(r_i) = 1 - \frac{r_i - \min(r)}{\max(r) - \min(r)}
+$$
+
+Where:
+- $ r_i $ is the rank (or index) of the data point (e.g., the rank of the researcher),
+- $ \min(r) $ is the minimum rank (usually 0),
+- $ \max(r) $ is the maximum rank (e.g., the total number of researchers minus 1),
+- $ F(r_i) $ is the empirical CDF at rank $ r_i $, which represents the proportion of the data that is less than or equal to that rank.
+
+<Plotly />
+
+To improve the readability of the plot different lines can be enabled/disabled, by clicking it's name or color in the legend.
+
+## Discussion and Conclusion
+
+While rankings provide a general sense of prestige, the analysis suggests that researchers looking to make a mark in their field should not be overly fixated on joining top-tier institutions. The K-S test results show no significant difference in the distribution of D-index values among these universities, meaning that similar research environments can be found in universities that may not top the global rankings. The perceived prestige of a university might not necessarily correspond to a significant difference in individual researcher output.
+
+This conclusion could be particularly useful for early-career researchers. Lesser-known institutions still offer opportunities for groundbreaking research, and these results suggest that individual research output is less about institutional prestige and more about the support and resources available within a specific research environment.
+
+## Limitations
+The current analysis is focused solely on a few select universities in computer science, which might not generalize to other fields or other universities.
+
+### D-index
+The D-index might not do interdisiplinary researchers justice, because it computes the H-index only based on publications in the specific field of interest. For someone interested in the interdisplinary performance of a university it might be more suitable to combine several of Research.com's discipline rankings or look at the [global university ranking](https://research.com/university-rankings/best-global-universities). Additionally, the H-index, while widely used, has its own limitations as a measure of research impact, and future work should explore additional metrics.
+
+### Generalizing beyond individual universities
+We also have to account for the small university sample size. While the results are statistically significant between universities, drawing significant conclusions about the broader academic community would likely require a larger scale comparison.
+
+### Data quality
+Whilst Research.com is a reputable source, the data scraped might not be up-to-date or accurate. The authors observed anecdotal evidence for this as Holger Hoos, a Professor at RWTH was still listed at the University of Leiden and another professor (https://de.wikipedia.org/wiki/Matthias_Jarke), who sadly passed away recently, was still listed in the RWTH rankings. These findings might not generalize to other universities or all countries.
+
+## Future Work
+Further research could incorporate other academic metrics to provide a more comprehensive picture. Expanding the dataset to other fields and including a wider range of universities could also enhance the findings.
+
+## Data Availability and Replication
+
+For those interested in replicating this study, analysis code, and the methods described are available [on Github](https://github.com/felkru/rankingsRethought). Further guidance for replication is available on [request](mailto:hi@felkru.com).
+
+[//]: # (Can i publish a csv of the data bcs. of copyright?)
+
+The authors encourage further exploration, forks and welcome collaborations to build on this work.
+
+## Acknowledgements
+
+The first author would like to extend his sincere gratitude to [Holger Hoos](https://research.com/u/holger-hoos) for his invaluable contributions to the experimental methodology used in this study. His generous donation of time, insightful feedback, and guidance were instrumental in shaping this work. The first author is deeply appreciative of his support and thoughtful review of this article.
+
+LLM technologies were used to aid the experimental and writing process. All LLM outputs were thoroughly reviewed and corrected. The thoughts in this article are the authors own.
