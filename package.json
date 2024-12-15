@@ -1,5 +1,5 @@
 {
-  "name": "Felix Homepage",
+  "name": "Felix's-Homepage",
   "type": "module",
   "version": "2.5.1",
   "private": true,
@@ -12,11 +12,11 @@
     "mobile-test": "ngrok http 4321"
   },
   "dependencies": {
-    "@astrojs/mdx": "^2.0.0",
-    "@astrojs/rss": "^4.0.1",
-    "@astrojs/sitemap": "^3.0.3",
-    "@astrojs/tailwind": "^5.0.3",
-    "astro": "^4.0.3",
+    "@astrojs/mdx": "^3.1.6",
+    "@astrojs/rss": "^4.0.7",
+    "@astrojs/sitemap": "^3.1.6",
+    "@astrojs/tailwind": "^5.1.0",
+    "astro": "^4.15.6",
     "caniuse-lite": "^1.0.30001651",
     "daisyui": "^3.2.1",
     "dayjs": "^1.11.9",
