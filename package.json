@@ -17,6 +17,7 @@
     "@astrojs/sitemap": "^3.3.1",
     "@astrojs/tailwind": "^6.0.2",
     "astro": "^5.7.6",
+    "astro-embed": "^0.9.2",
     "caniuse-lite": "^1.0.30001651",
     "daisyui": "^3.2.1",
     "dayjs": "^1.11.9",

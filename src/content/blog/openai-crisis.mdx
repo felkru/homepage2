@@ -1,0 +1,160 @@
+---
+title: "Why OpenAI's Leadership Crisis Was Inevitable"
+description: "The November 2023 crisis at OpenAI wasn't a random failure—it was the predictable result of structural governance flaws. By examining the separation of executive and legislative powers in organizations, we can understand why the board's attempt to fire Sam Altman was doomed from the start and what AI companies should do differently."
+pubDate: "Nov 28 2025"
+heroImage: "../../assets/openai_crisis.png"
+tags: ["Language: English", "AI Governance", "Corporate Structure", "AI Safety", "Organizations", "contains AI content", "manually fact-checked"]
+published: true
+homepage: true
+---
+import { Tweet } from 'astro-embed';
+import H2_Banner from '../../components/H2_Banner.astro'
+export const components = {h2: H2_Banner}
+
+As AI becomes more advanced and OpenAI was forced to restructure their board, into a [seperate committee](https://openai.com/index/openai-board-forms-safety-and-security-committee/) we have the opportunity to look back at what happend in 2023 and see whether we learnt our lesson.
+
+When OpenAI's board [fired Sam Altman on November 17, 2023](https://en.wikipedia.org/wiki/Removal_of_Sam_Altman_from_OpenAI), the tech world watched in shock as one of the most powerful AI companies nearly imploded. Within four days, [Altman was reinstated](https://abcnews.go.com/Business/sam-altman-reaches-deal-return-ceo-openai/story?id=105091534), the board had been restructured, and the whole episode seemed like a bizarre fever dream. But this wasn't just drama—it was a case study in organizational failure that every AI company should study.
+
+The crisis revealed something crucial: OpenAI's governance structure made the board's failure inevitable. Several people have criticised the board members for not providing solid evidence for Sams firing. The below analysis reveals: No matter how terribly Altman might have behaved, the board would have been in a terrible position to provide solid evidence and enforce their mission at the same time. Understanding why requires looking at a principle that's been central to stable governments for centuries: the separation of executive and legislative powers.
+
+## The Executive-Legislative Framework
+
+The [separation of executive and legislative functions](https://www.britannica.com/topic/separation-of-powers) is one of the oldest ideas in governance. Montesquieu formalized this concept in the eighteenth century as a system of checks and balances, and it's been foundational to Western democracies ever since. The basic idea is simple: the people who make rules (legislative) should be separate from those who execute them (executive).
+
+Most companies have a board of directors (legislative) and seperate management (executive). Usually this is a healthy structure, since the primary mission of most companies is to maximise profitablility for its shareholders, but according to it's charter OpenAI's mission is ["to ensure that artificial general intelligence (AGI) [...] benefits all of humanity"](https://en.wikipedia.org/wiki/OpenAI#:~:text=According%20to%20OpenAI's%20charter%2C%20its,%E2%80%94benefits%20all%20of%20humanity.%22)
+
+OpenAI's structure violated this separation in almost every way possible.
+
+## How OpenAI's Board Was Set Up to Fail
+
+Let's look at what went wrong:
+
+### 1. The Executive Sat on the Legislative Body
+
+Before the crisis, Sam Altman held a seat on OpenAI's nonprofit board—the very body meant to oversee him. Imagine if the US President could vote on whether Congress should investigate them. That's essentially what OpenAI allowed.
+
+Even worse, Chief Scientist [Ilya Sutskever also sat on the board](https://arc.net/l/quote/otkrmcek) while simultaneously reporting to Altman. When Sutskever voted to fire Altman, he was acting against his own boss—creating a huge conflict of interest that likely contributed to his [later regret](https://x.com/ilyasut/status/1726590052392956028) and eventual departure from the company.
+
+<Tweet id="https://x.com/ilyasut/status/1726590052392956028" />
+
+### 2. No Resources for independent oversight
+
+A legislative body needs resources to function independently. The US Congress has the Congressional Budget Office, committee staff, and research arms. OpenAI's nonprofit board? [They had essentially nothing](https://fortune.com/2024/05/29/openai-sam-altman-helen-toner-ted-ouster-non-profit-board/).
+
+From what I can tell from the board had no dedicated staff, no independent research capability, no budget for investigations or communications and all of it's members worked this job as a secondary occupation (please help me find sources on this that weren't financed by OpenAI). When concerns arose about Altman's behavior, board members had to rely on secondhand information from executives who feared retaliation. It's like asking the US Congress to oversee the President without giving them subpoena power or investigative staff. 
+
+### 3. One Person, Too Much Power
+
+Perhaps most critically, OpenAI's structure meant investor and employee confidence was staked almost entirely on one person. There was no strong COO or distributed leadership team that could maintain continuity if Altman left. This made the board's theoretical power to remove him practically unenforceable, since firing him would risk destroying the entire company.
+
+When the board did fire Altman, [over 700 out of 770 employees](https://en.wikipedia.org/wiki/Sam_Altman#OpenAI) threatened to resign, and Microsoft offered to hire them all. The board had the formal authority to fire the CEO but lacked the practical power to make it stick.
+
+## What the board members that were forced to leave OpenAI think
+
+Helen Toner, a former board member, said that when OpenAI released ChatGPT in November 2022, [the board wasn't informed in advance and found out on Twitter](https://arc.net/l/quote/geemrjxv). They learned about one of their own company's most significant product launches the same way the public did. This wasn't just poor communication, it was a symptom of a board with no actual oversight capability.
+
+[In her May 2024 testimony](https://time.com/7012863/helen-toner/) she revealed that two executives had reported "psychological abuse" from Altman, providing screenshots and documentation. But the board couldn't investigate properly—they had no staff, no budget, and no protection for whistleblowers beyond their own credibility.
+
+During [a recent deposition](https://chatgptiseatingtheworld.com/wp-content/uploads/2025/11/Ilya-Sutsekever-Deposition.df_.pdf) as part of Elon Musk's lawsuit, Ilya Sutskever revealed he'd spent over a year considering ousting Altman, eventually submitting a 52-page memo describing a "consistent pattern of lying, undermining his execs, and pitting his execs against one another."
+
+When they finally did act, [the board gave Altman just five to ten minutes notice](https://en.wikipedia.org/wiki/Removal_of_Sam_Altman_from_OpenAI) before announcing his firing publicly. The hasty execution reflected their weak position: They knew they needed to act decisively before opposition could organize. But it was too late, the structural imbalance meant they'd already lost.
+
+## What Might Actually Work
+
+Based on historical examples and governance research, here's what a properly structured AI company might look like:
+
+### Separate Leadership from Oversight
+
+First, **remove all executives from the board**. The board should consist entirely of independent directors with no reporting relationship to company management. In many European countries, [two-tiered boards are required by law](https://en.wikipedia.org/wiki/Dual_board), with a supervisory board made up entirely of non-executives overseeing an executive management board.
+
+### Fund Independent Oversight
+
+Second, **give the board a significant and stable budget**. The nonprofit board should receive a fixed percentage of company revenue—say 1% per default, with minimum yearly budget growth fixed to [inflation](https://www.bls.gov/news.release/cpi.nr0.htm)—for:
+
+- Hiring permanent research staff to investigate safety concerns
+- Conducting independent technical audits
+- Maintaining anonymous reporting systems with cryptographic verification
+- Paying for legal counsel and communications
+- Funding external safety evaluations
+
+This isn't charity—it's infrastructure. Just as the US Congress needs the Congressional Budget Office to evaluate legislation independently, AI company boards need technical staff to evaluate safety claims independently.
+
+### Distribute Executive Power
+
+Third, **ensure no single person is irreplaceable**. This means:
+
+- Having a strong COO who could step in as CEO
+- Distributing key relationships (with investors, governments, talent) across multiple executives
+- Making technical knowledge accessible to multiple people, not locked in one founder's head
+- Creating succession plans that don't assume any one person is indispensable
+
+### Protect Whistleblowers Structurally
+
+Fourth, **implement anonymous but verified reporting systems**. Employees should be able to report concerns to the board through cryptographically verified channels that prove they're legitimate employees without revealing their identity. The board should have dedicated staff and budget to investigate these reports independently.
+
+This is technically relatively straightforward. What's missing is the organizational will to implement it.
+
+## The Broader Pattern
+
+OpenAI isn't unique. Several corporations have failed because they allowed power to concentrate in one individual rather than implementing proper governance. We've seen this story before with [Theranos](https://www.sec.gov/news/press-release/2018-41), WeWork, FTX, and countless other companies where charismatic founders operated without effective oversight.
+
+What makes AI companies special is the stakes. The technology has the potential to improve education, finance, agriculture and healthcare, but also to cause rapid, potentially catastrophic change. We can't afford to rely on the hope that founders will self-regulate.
+
+## "But other boards work great without the above"
+
+True. I'd argue that traditional board structures work pretty well for companies seeking to maximise shareholder value, if the people sitting on your board are your largest investors. OpenAI's mission is not to maximise shareholder value, but ["to ensure that artificial general intelligence (AGI) [...] benefits all of humanity"](https://arc.net/l/quote/xnfacukv) though. They also took the great decision to have a seperate oversight board that is not comprised of shareholders (see I also have some praise for OpenAI).  
+
+This created some second order effects they appear to have overlooked:
+1. If leadership had any financial or reputational incentives to maximise shareholder value, they'd have strong reason to ensure the board has as little power as possible, since otherwise they'd be at risk of being fired. 
+2. Since the boardmembers they picked aren't VCs or bank representatives, they weren't able to bring their own research capabilities and budget to the table.
+
+## Might the above approach prevent innovation?
+
+That depends on your definition of innovation. I expect that distributing power over several people will lead to significant communication costs, some relatively small financial costs and even delays in AI development.
+
+I personally feel it's economically efficient to spent the extra time to consider the impacts of our decisions if they influence the lifes of others to a significant degree. Just optimizing for profits will not achieve that goal. Thus I'd argue such a policy would actually create more economic value.
+
+To answer the question: No, I actually expect such a policy to increase the societal value of AI companies, even if that doesn't manifest in shareholder returns.
+
+## TODO
+
+Did OpenAI's new oversight board improve things? How do other companies like Google, Anthropic, xAI or Meta stack up?
+
+## The Ilya Hypothesis
+
+Ilya Sutskever recently suggested that [AI company leaders might take safety more seriously](https://www.dwarkesh.com/p/ilya-sutskever-2) once they interact with truly powerful AI systems. There's something appealing about this idea—that experiencing advanced AI firsthand will inspire better behavior.
+
+But history suggests skepticism is warranted. With nuclear weapons, the dangers were intuitively clear to everyone involved, yet the arms race proceeded anyway. People are capable of understanding something is dangerous while doing it anyway due to competitive pressure.
+
+More fundamentally, the "Ilya hypothesis" still relies on individuals making good choices. Proper governance means we don't have to hope for that. We create structures that make good outcomes more likely regardless of individual virtue.
+
+Even if founders do become more concerned about safety, that doesn't automatically translate to better coordination. Cultural inertia, existing organizational structures, and economic incentives create massive friction. Some leaders might hold onto convenient narratives ("AI is just a tool") even when evidence suggests otherwise.
+
+## A Two-Tier Future?
+
+One particularly promising direction is mandating two-tier boards for frontier AI companies. [Germany's corporate governance system](https://blogs.law.ox.ac.uk/oblb/blog-post/2022/12/german-supervisory-board) requires companies to have separate executive and supervisory boards, with the supervisory board hiring and firing the executive board. This structure creates genuine separation of powers.
+
+This isn't a silver bullet, but it's a necessary foundation. You can't have effective oversight without structural separation, even if structural separation doesn't guarantee effectiveness.
+
+## The Bottom Line
+
+The OpenAI crisis of November 2023 wasn't a random failure of personalities or communication. It was the predictable result of a governance structure that violated basic principles of organizational design.
+
+The board tried to exercise oversight but lacked the independence, resources, and structural power to succeed. Altman's reinstatement wasn't proof that the board was wrong about their concerns, it was proof that they never had the power to act on any concerns about Altman in the first place, which is a highly concerning setup.
+
+As AI systems become more powerful, we can't rely on hoping founders will make good decisions. We need governance structures that make good outcomes likely regardless of individual virtue. That means:
+
+- Real separation between oversight and execution
+- Independent resources for the oversight body  
+- Distributed executive power so no one is irreplaceable
+- Protected channels for raising concerns
+
+These aren't radical ideas. They're basic principles that have sustained stable organizations and governments for centuries. The real question is: Why are we building the most powerful institutions in human history without them?
+
+## Acknowledgements
+
+This post was inspired by conversations with Nico Hillbrand. Thank you for your insight and encouragement. 
+
+---
+
+*Want to discuss this? Find me at [hi@felkru.com](mailto:hi@felkru.com).*
