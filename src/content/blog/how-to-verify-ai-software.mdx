@@ -1,0 +1,23 @@
+---
+title: "How to verify AI agent software"
+description: "AI agents have become very useful for software developmentat this point. But how do know that what they coded up is actually what we wanted them to do?"
+pubDate: "Dec 03 2025"
+heroImage: "../../assets/default.png"
+tags: ["Language: English"]
+published: false
+homepage: true
+---
+import { Tweet } from 'astro-embed';
+import H2_Banner from '../../components/H2_Banner.astro'
+export const components = {h2: H2_Banner}
+
+Many people feel that coding with AI isn't a good thing to be doing and that it will erode the quality of your codebase. I hold the view that for some applications like testing hypothesis, slight adaptations of existing work, repetitive coding tasks etc. AI coding can already be extremely useful. The issue arises that you'll often times need to trust your code or be able to understand how it works to make e.g. strategic decisions etc.
+
+I think I have some valueable ideas and experiences to contribute here, so the long term aim of this project is to try out explore different techniques for verifying and understanding AI written software.
+
+## Some ideas I'll explore
+- Execute the code using a debugger
+- Have another LLM explain code snippets to you
+- Use Chrome and puppeteer to design end to end tests to guide the LLM during development
+- Design unit tests, which you don't show the agents whilst it is designing your task
+- Run AI agents on isolated servers to provide a replicatable environment to test hypothesis about different prompting techniques  
