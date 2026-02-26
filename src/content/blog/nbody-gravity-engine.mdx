@@ -1,0 +1,41 @@
+---
+title: "N-Body Gravity Engine"
+description: "An interactive gravitational N-body simulation running entirely in your browser. Watch particles orbit, merge, and form cosmic structures in real time."
+pubDate: "Feb 26 2026"
+heroImage: "../../assets/nbody_hero.png"
+tags: ["Language: English", "Simulation", "Physics", "Interactive"]
+published: true
+homepage: true
+---
+import NBodySimulation from '../../components/NBodySimulation.astro'
+
+Gravity is the architect of the cosmos. From spiral galaxies to binary star systems, the same simple force — every mass attracting every other mass — gives rise to endlessly complex structures. This simulation lets you play with that force directly.
+
+## The Simulation
+
+<NBodySimulation />
+
+## How It Works
+
+Each particle exerts a gravitational pull on every other particle (an **N² direct summation**). When two particles get close enough, they **merge** — conserving momentum and mass — growing into larger bodies. Eventually, everything collapses into a single star, which then triggers a new cosmic cycle.
+
+### Initialization Modes
+
+- **Disk** — A rotating accretion disk, like a forming solar system
+- **Binary** — Two colliding star clusters
+- **Grid** — A uniform lattice that collapses under its own gravity
+- **Chaos** — Random positions and velocities — pure entropy
+
+### Controls
+
+Press **H** to toggle the control panel. You can adjust:
+
+| Parameter | Effect |
+|---|---|
+| **Particle Count** | Number of initial bodies |
+| **Gravity (G)** | Strength of gravitational attraction |
+| **Step Size (dt)** | Simulation speed |
+| **Merge Threshold** | How close particles must be to merge |
+| **Trail Persistence** | How long particle trails linger |
+
+**Double-click** anywhere to spawn a massive singularity. **Click and drag** to attract particles toward your cursor.
