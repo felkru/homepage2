@@ -1,0 +1,37 @@
+---
+title: "Hopf Fibration"
+description: "A mesmerizing interactive exploration of the Hopf Fibration. Witness the beauty of 4D topology in your browser."
+pubDate: "Feb 26 2026"
+heroImage: "../../assets/hopf_hero.png"
+tags: ["Language: English", "Simulation", "Mathematics", "Interactive"]
+published: true
+homepage: true
+---
+
+import HopfFibration from "../../components/HopfFibration.astro";
+
+Mathematics is often most beautiful when it reveals hidden structures in higher dimensions. The Hopf Fibration is a way of mapping a 3-sphere (a sphere in 4-dimensional space) onto a 2-sphere, showing how circles can fill up space in a way that is both intricate and perfectly balanced.
+
+## Visualizing the 4th Dimension
+
+<HopfFibration />
+
+## What are you seeing?
+
+This simulation visualizes the **Hopf Fibration**, a beautiful topological structure that emerges from 4D geometry.
+
+The classic **Hopf Fibration** decomposes the 3-sphere (a 4D sphere) into a collection of interlocking circles. Each point on a normal 2-sphere corresponds to an entire circle (a "fiber") in the 3-sphere. When projected stereographically into our 3D space, these fibers form nested tori that fill the entire space without ever intersecting.
+
+## Controls
+
+The UI panel at the bottom allows you to manipulate the topology in real-time:
+
+| Control            | Effect                                           |
+| ------------------ | ------------------------------------------------ |
+| **Volume Shells**  | Number of nested layers of fibers                |
+| **Fiber Density**  | How many fibers are rendered per shell           |
+| **Flow Velocity**  | Speed of the "particles" moving along the fibers |
+| **Cycle Speed**    | Speed of the color shift                         |
+| **Vertex Quality** | Number of segments used to draw each fiber       |
+
+Press **H** to toggle the UI for a "Zen" experience. Click and drag on the canvas to manually rotate the structure.
