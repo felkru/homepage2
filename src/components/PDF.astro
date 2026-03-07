@@ -1,11 +1,11 @@
 ---
 const { number_of_pages, url, ...rest } = Astro.props;
-console.log(number_of_pages)
 ---
 
 <iframe
     class:list={["w-full", "md:w-[90vw]", "lg:w-[65vw]", "max-w-[810px]", "aspect-" + number_of_pages + "xA4"]}
     src={url}
+    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
     {...rest}
     >Reload the page or use another browser to view my resume...</iframe
 >

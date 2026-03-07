@@ -20,7 +20,7 @@ if (pattern.test(img)) {
 <div
     class="rounded-lg bg-base-100 hover:shadow-xl transition ease-in-out hover:scale-[102%]"
 >
-    <a href={url} target={target}>
+    <a href={url} target={target} rel={target === "_blank" ? "noopener noreferrer" : undefined}>
         <div class="hero-content flex-col md:flex-row">
             {
                 img && (

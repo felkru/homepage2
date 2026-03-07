@@ -4,7 +4,6 @@ import HorizontalCard from "../components/HorizontalCard.astro";
 import { getCollection } from "astro:content";
 
 const fullName = import.meta.env.PUBLIC_FULL_NAME;
-console.log(fullName)
 
 const posts = (await getCollection("blog"))
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -27,11 +26,13 @@ const posts = (await getCollection("blog"))
             <a
                 class="btn mb-4"
                 href="https://www.linkedin.com/in/felixkrueckel/"
-                target="_blank">Let's connect!</a
+                target="_blank"
+                rel="noopener noreferrer">Let's connect!</a
             >
             <a
                 href={import.meta.env.PUBLIC_RESUME_URL + "view"}
                 target="_blank"
+                rel="noopener noreferrer"
                 class="btn btn-outline sm:ml-5"
             >
                 Download Resume
