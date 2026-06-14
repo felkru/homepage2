@@ -298,6 +298,7 @@ const timeline = [
                     <figure class="bg-photo" data-reveal>
                         <Image src={felixPro} alt="Felix Krückel at work" widths={[480, 900]} sizes="(max-width: 900px) 92vw, 420px" />
                         <figcaption class="mono">Felix Krückel · Aachen</figcaption>
+                        <a class="btn-accent bg-resume" href="/resume">View full résumé →</a>
                     </figure>
                     <ol class="timeline">
                         {
@@ -880,6 +881,10 @@ const timeline = [
             }
             .bg-photo figcaption {
                 margin-top: 0.7rem;
+            }
+            .bg-resume {
+                display: inline-block;
+                margin-top: 1.1rem;
             }
             .timeline {
                 list-style: none;
