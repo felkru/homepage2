@@ -1,49 +1,195 @@
 ---
 import { type BlogSchema } from "../content/config";
-import BaseLayout from "./BaseLayout.astro";
+import SiteLayout from "./SiteLayout.astro";
+import Photo from "../components/Photo.astro";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 
 export interface Props extends BlogSchema {}
 
-const { title, description, pubDate, updatedDate, heroImage, badge, stylesheet, tags = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, badge, tags = [], plotly = false } = Astro.props;
 dayjs.extend(localizedFormat);
-const displayDate = dayjs(pubDate).format("ll")
-import Photo from "../components/Photo.astro";
-// TODO: find out how to make styles work so i can customize my blogposts
-// import(stylesheet).then((mod) => mod.default).catch((e) => console.error("couldn't find your stylesheet. Error:"  + e));
+const displayDate = dayjs(pubDate).format("ll");
 ---
 
-<BaseLayout title={title} description={description} image={heroImage}>
-  <!-- plotly -->
-  <script is:inline src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<SiteLayout title={title} description={description} image={heroImage}>
+    <!-- reading-progress telemetry -->
+    <div id="read-progress"><span id="read-progress-bar"></span></div>
+    <div id="read-readout" class="mono">000%</div>
 
-  <main class="md:flex md:justify-center">
-    <article class="prose prose-lg max-w-[750px] prose-img:mx-auto">
-      {heroImage && <Photo src={heroImage} description={title} quality="mid" class="w-full mb-6" />}
-      <h1 class="title my-2 text-4xl font-bold">{title}</h1>
-      {pubDate && <time>{displayDate}</time>}
-      <br />
-      {badge && <div class="badge badge-secondary my-1">{badge}</div>}
-      {
-        tags &&
-          tags.map((tag) => (
-            <a href={`/blog/tag/${tag}`} class="badge badge-outline ml-2 no-underline">
-              {tag}
-            </a>
-          ))
-      }
-      {
-        updatedDate && (
-          <div>
-            {" "}
-            Last updated on <time>{updatedDate}</time>{" "}
-          </div>
-        )
-      }
-      <div class="divider my-2"></div>
-      <slot />
+    {plotly && <script is:inline src="https://cdn.plot.ly/plotly-latest.min.js"></script>}
+
+    <article class="post">
+        {heroImage && (
+            <div class="post-hero" data-reveal>
+                <Photo src={heroImage} description={title} quality="mid" class="post-hero-img" loading="eager" />
+            </div>
+        )}
+
+        <header class="post-head" data-reveal>
+            <div class="post-meta mono">
+                {pubDate && <time>{displayDate}</time>}
+                {badge && <span class="post-badge">{badge}</span>}
+            </div>
+            <h1>{title}</h1>
+            {
+                tags && tags.length > 0 && (
+                    <div class="post-tags">
+                        {tags.map((tag) => (
+                            <a href={`/blog/tag/${tag}`} class="post-tag mono">
+                                {tag}
+                            </a>
+                        ))}
+                    </div>
+                )
+            }
+            {updatedDate && (
+                <div class="post-updated mono">Last updated {updatedDate}</div>
+            )}
+        </header>
+
+        <div class="rule post-rule" data-reveal></div>
+
+        <div class="prose" data-reveal>
+            <slot />
+        </div>
+
+        <footer class="post-foot mono" data-reveal>
+            <span>▮ EOF</span>
+            <a href="/blog">← all writing</a>
+        </footer>
     </article>
-  </main>
-</BaseLayout>
+</SiteLayout>
 
+<style>
+    .post {
+        max-width: 730px;
+        margin: 0 auto;
+    }
+    .post-hero {
+        margin-bottom: 2rem;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+    }
+    .post-hero-img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    .post-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+    .post-badge {
+        color: var(--amber);
+    }
+    .post-head h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        line-height: 1.1;
+        margin: 0 0 1rem;
+    }
+    .post-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+    }
+    .post-tag {
+        font-size: 0.66rem;
+        color: var(--muted);
+        text-decoration: none;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 0.2rem 0.5rem;
+        transition: border-color 0.2s, color 0.2s;
+    }
+    .post-tag:hover {
+        border-color: var(--teal);
+        color: var(--teal);
+    }
+    .post-updated {
+        margin-top: 0.7rem;
+        text-transform: none;
+    }
+    .post-rule {
+        margin: 1.6rem 0 2rem;
+    }
+    .post-foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 3rem;
+        padding-top: 1.4rem;
+        border-top: 1px solid var(--line);
+    }
+    .post-foot span {
+        color: var(--teal);
+    }
+    .post-foot a {
+        color: var(--muted);
+        text-decoration: none;
+    }
+    .post-foot a:hover {
+        color: var(--teal);
+    }
+
+    /* reading progress */
+    #read-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        z-index: 60;
+        background: transparent;
+        pointer-events: none;
+    }
+    #read-progress-bar {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--teal), var(--amber));
+        box-shadow: 0 0 8px rgba(94, 234, 212, 0.5);
+    }
+    #read-readout {
+        position: fixed;
+        bottom: 1.1rem;
+        right: 1.1rem;
+        z-index: 40;
+        font-size: 0.7rem;
+        color: var(--muted);
+        background: rgba(10, 14, 20, 0.7);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 0.25rem 0.5rem;
+        backdrop-filter: blur(6px);
+    }
+    @media (max-width: 760px) {
+        #read-readout { display: none; }
+    }
+</style>
+
+<script is:inline>
+    (() => {
+        const bar = document.getElementById("read-progress-bar");
+        const out = document.getElementById("read-readout");
+        if (!bar) return;
+        let ticking = false;
+        function update() {
+            const h = document.documentElement;
+            const max = h.scrollHeight - h.clientHeight;
+            const p = max > 0 ? Math.min(1, h.scrollTop / max) : 0;
+            bar.style.width = (p * 100).toFixed(1) + "%";
+            if (out) out.textContent = p >= 0.999 ? "▮ EOF" : String(Math.round(p * 100)).padStart(3, "0") + "%";
+            ticking = false;
+        }
+        document.addEventListener("scroll", () => {
+            if (!ticking) { ticking = true; requestAnimationFrame(update); }
+        }, { passive: true });
+        update();
+    })();
+</script>

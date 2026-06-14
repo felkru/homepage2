@@ -10,6 +10,7 @@ const blogSchema = ({image}) => z.object({
     badge: z.string().optional(),
     link: z.string().url().optional(),
     stylesheet: z.string().optional(),
+    plotly: z.boolean().optional(),
     tags: z.array(z.string()).refine(items => new Set(items).size === items.length, {
         message: 'tags must be unique',
     }).optional(),

@@ -18,15 +18,18 @@ module.exports = {
         themes: [
             {
                 mytheme: {
-                    primary: "#f17f38",
-                    secondary: "#f6c5a2",
-                    accent: "#f12828",
-                    neutral: "#ffd5aa",
-                    "base-100": "#fffbf8",
-                    info: "#ffd0aa",
-                    success: "#f54a00",
-                    warning: "#d74747",
-                    error: "#ff0000",
+                    primary: "#5eead4",
+                    secondary: "#7dd3fc",
+                    accent: "#f5a623",
+                    neutral: "#111722",
+                    "base-100": "#0a0e14",
+                    "base-200": "#0f1520",
+                    "base-300": "#1e2735",
+                    "base-content": "#e8edf5",
+                    info: "#7dd3fc",
+                    success: "#5eead4",
+                    warning: "#f5a623",
+                    error: "#f87171",
                 },
             },
         ], // true: all themes | false: only light + dark | array: specific themes like this ["light", "dark", "cupcake"]

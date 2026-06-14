@@ -1,108 +1,122 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import HorizontalCard from "../../components/HorizontalCard.astro";
-import {getCollection} from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import ArtCanvas from "../../components/ArtCanvas.astro";
+import { getCollection } from "astro:content";
 
-export async function getStaticPaths({paginate}) {
+export async function getStaticPaths({ paginate }) {
     let posts = await getCollection("blog");
     posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     posts = posts.filter((post) => post.data.published);
-    return paginate(posts, {pageSize: 10});
+    return paginate(posts, { pageSize: 10 });
 }
 
-const {page} = Astro.props;
+const { page } = Astro.props;
 ---
 
-<BaseLayout title="Blog" sideBarActiveItemID="blog">
-    <div class="mb-5">
-        <div class="text-3xl w-full font-bold">Blog</div>
-    </div>
+<SiteLayout title="Writing" active="writing" wide={true}>
+    <section class="blog-hero" data-reveal>
+        <ArtCanvas variant="flow" seed={7} height="100%" />
+        <div class="blog-hero-fade"></div>
+        <div class="blog-hero-text">
+            <span class="mono">fig. — generative flow field · move your cursor</span>
+            <h1>Writing &amp; experiments</h1>
+        </div>
+    </section>
 
     {
         page.data.length === 0 ? (
-                <div class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full">
-                    <p class="font-bold">Sorry!</p>
-                    <p>There are no blog posts to show at the moment. Check back later!</p>
-                </div>
+            <div class="empty" data-reveal>
+                <p class="empty-title">Sorry!</p>
+                <p>There are no blog posts to show at the moment. Check back later!</p>
+            </div>
         ) : (
-        <ul>
-            {page.data.map((post) => {
-                    if (post.data.link) {
-                          return (
-                                  <>
-                                      <HorizontalCard
-                                              title={post.data.title}
-                                              img={post.data.heroImage}
-                                              desc={post.data.description}
-                                              url={post.data.link}
-                                              target="_blank"
-                                              badge={post.data.badge}
-                                              tags={post.data.tags}
-                                      />
-                                      <div class="divider my-0"/>
-                                  </>
-                          )
-                    } else {
-                          return (
-                                  <>
-                                      <HorizontalCard
-                                              title={post.data.title}
-                                              img={post.data.heroImage}
-                                              desc={post.data.description}
-                                              url={"/blog/" + post.slug}
-                                              target="_self"
-                                              badge={post.data.badge}
-                                              tags={post.data.tags}
-                                      />
-                                      <div class="divider my-0"/>
-                                  </>
-                          )
-                    }
-                }
-            )}
-        </ul>
+            <div class="post-grid">
+                {page.data.map((post) => (
+                    <PostCard
+                        title={post.data.title}
+                        img={post.data.heroImage}
+                        desc={post.data.description}
+                        url={post.data.link ?? "/blog/" + post.slug}
+                        target={post.data.link ? "_blank" : "_self"}
+                        badge={post.data.badge}
+                        tags={post.data.tags}
+                    />
+                ))}
+            </div>
         )
-        }
+    }
 
-        <div class="flex justify-between">
-            {
-                page.url.prev ? (
-                        <a href={page.url.prev} class="btn btn-ghost my-10 mx-5">
-                            {" "}
-                            <svg
-                                    class="h-6 w-6 fill-current md:h-8 md:w-8"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                            >
-                                <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/>
-                            </svg>
-                            {" "}
-                            Recent posts
-                        </a>
-                ) : (
-                        <div/>
-                )
-            }
-            {
-                page.url.next ? (
-                        <a href={page.url.next} class="btn btn-ghost my-10 mx-5">
-                            Older Posts{" "}
-                            <svg
-                                    class="h-6 w-6 fill-current md:h-8 md:w-8"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                            >
-                                {" "}
-                                <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
-                            </svg>
-                        </a>
-                ) : (
-                        <div/>
-                )
-            }
-        </div>
-        </BaseLayout>
+    <div class="pager mono">
+        {page.url.prev ? <a href={page.url.prev}>← Recent posts</a> : <span></span>}
+        {page.url.next ? <a href={page.url.next}>Older posts →</a> : <span></span>}
+    </div>
+</SiteLayout>
+
+<style>
+    .blog-hero {
+        position: relative;
+        height: clamp(200px, 30vw, 300px);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: clamp(2rem, 5vw, 3.5rem);
+    }
+    .blog-hero-fade {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            transparent 30%,
+            rgba(10, 14, 20, 0.55) 75%,
+            rgba(10, 14, 20, 0.9) 100%
+        );
+        pointer-events: none;
+    }
+    .blog-hero-text {
+        position: absolute;
+        left: clamp(1.2rem, 3vw, 2.2rem);
+        bottom: clamp(1rem, 3vw, 1.8rem);
+        pointer-events: none;
+    }
+    .blog-hero-text h1 {
+        font-size: clamp(2rem, 5vw, 3.4rem);
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        margin: 0.3rem 0 0;
+    }
+    .post-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: clamp(1.3rem, 3vw, 2rem);
+    }
+    .pager {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 3rem;
+    }
+    .pager a {
+        color: var(--text);
+        text-decoration: none;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        padding: 0.6rem 1.1rem;
+        transition: border-color 0.2s, color 0.2s;
+    }
+    .pager a:hover {
+        border-color: var(--teal);
+        color: var(--teal);
+    }
+    .empty {
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--amber);
+        border-radius: 8px;
+        padding: 1.2rem 1.4rem;
+        color: var(--muted);
+    }
+    .empty-title {
+        color: var(--text);
+        font-weight: 600;
+        margin: 0 0 0.3rem;
+    }
+</style>

@@ -19,3 +19,4 @@ pnpm-debug.log*
 
 # Astro
 .astro/
+node_modules.nosync/
