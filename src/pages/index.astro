@@ -1,5 +1,6 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
+import SiteBackground from "../components/SiteBackground.astro";
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import felixPro from "../assets/felix_pro.jpg";
@@ -31,7 +32,7 @@ const roles = [
         org: "Stanford Center for AI Safety",
         role: "Research Collaborator",
         date: "2024 —",
-        desc: "≈$25k grant for AI policy projects — tools that let policymakers engage hands-on with ML fundamentals.",
+        desc: "≈$25k grant for technical AI governance research — tools that let policymakers engage hands-on with ML fundamentals.",
         link: "https://safeaigermany.org/projects-spring26/felix-duncan",
     },
     {
@@ -86,9 +87,8 @@ const timeline = [
     ["2026", "#1 — OpenMP/CUDA Optimization Challenge", "Kernel optimization on 96-core nodes with 4× H100; won outright on 2 of 3 problems."],
     ["2026", "Iliad Fellowship, London", "Intensive AI-safety research program — singular learning theory, developmental interpretability, agent foundations."],
     ["2025", "Computer Vision Lab, RWTH (Prof. Leibe)", "Only undergraduate researcher in the lab — transformer-based human pose estimation."],
-    ["2024", "Process & Data Science under Prof. Wil van der Aalst", "Generalized sequence alignment for event data, shipped as a C-accelerated Python library."],
     ["2024", "Founded AI Safety Aachen e.V.", "Built the StanfordxRWTH AI Safety Forum — €25k+ fundraised; speakers incl. Clark Barrett, Axel Voss, Holger Hoos."],
-    ["2023", "Founded Mealscanner", "Food-tech startup, NRW Founders Scholarship; received an exit offer — declined to pivot into AI policy."],
+    ["2023", "Founded Mealscanner", "Food-tech startup, NRW Founders Scholarship; received an exit offer — declined to pivot into technical AI governance research."],
 ];
 ---
 
@@ -105,6 +105,7 @@ const timeline = [
         <script is:inline>document.documentElement.classList.add("js");</script>
     </head>
     <body class="landing">
+        <SiteBackground />
         <!-- NAV -->
         <nav id="nav">
             <a class="brand" href="/">
@@ -127,7 +128,7 @@ const timeline = [
             <div class="hero-inner">
                 <p class="kicker" data-hero>
                     <span class="dot"></span>
-                    Aachen, DE&ensp;→&ensp;Berkeley, CA · July 2026
+                    Hardware-based transparency for enforcement
                 </p>
                 <h1 data-hero>
                     AI governance needs<br />
@@ -146,7 +147,6 @@ const timeline = [
                     <a class="btn-ghost" href="mailto:hi@felkru.com">hi@felkru.com</a>
                 </div>
             </div>
-            <p class="hero-legend mono">fig. 01 — GPU die · live core utilization · the thing my sensors listen to</p>
             <a class="scroll-hint mono" href="#now">scroll<span class="scroll-line"></span></a>
         </header>
 
@@ -487,6 +487,14 @@ const timeline = [
             }
 
             /* ---------- hero ---------- */
+            /* keep all content above the fixed background field */
+            .landing #nav,
+            .landing .hero,
+            .landing main,
+            .landing .site-footer {
+                position: relative;
+                z-index: 1;
+            }
             .hero {
                 position: relative;
                 min-height: 100svh;

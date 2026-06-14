@@ -1,7 +1,6 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import PostCard from "../../components/PostCard.astro";
-import ArtCanvas from "../../components/ArtCanvas.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths({ paginate }) {
@@ -15,14 +14,10 @@ const { page } = Astro.props;
 ---
 
 <SiteLayout title="Writing" active="writing" wide={true}>
-    <section class="blog-hero" data-reveal>
-        <ArtCanvas variant="flow" seed={7} height="100%" />
-        <div class="blog-hero-fade"></div>
-        <div class="blog-hero-text">
-            <span class="mono">fig. — generative flow field · move your cursor</span>
-            <h1>Writing &amp; experiments</h1>
-        </div>
-    </section>
+    <div class="page-head" data-reveal>
+        <h1>Writing &amp; experiments</h1>
+        <span class="rule"></span>
+    </div>
 
     {
         page.data.length === 0 ? (
@@ -54,37 +49,6 @@ const { page } = Astro.props;
 </SiteLayout>
 
 <style>
-    .blog-hero {
-        position: relative;
-        height: clamp(200px, 30vw, 300px);
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        overflow: hidden;
-        margin-bottom: clamp(2rem, 5vw, 3.5rem);
-    }
-    .blog-hero-fade {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-            to bottom,
-            transparent 30%,
-            rgba(10, 14, 20, 0.55) 75%,
-            rgba(10, 14, 20, 0.9) 100%
-        );
-        pointer-events: none;
-    }
-    .blog-hero-text {
-        position: absolute;
-        left: clamp(1.2rem, 3vw, 2.2rem);
-        bottom: clamp(1rem, 3vw, 1.8rem);
-        pointer-events: none;
-    }
-    .blog-hero-text h1 {
-        font-size: clamp(2rem, 5vw, 3.4rem);
-        font-weight: 700;
-        letter-spacing: -0.025em;
-        margin: 0.3rem 0 0;
-    }
     .post-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

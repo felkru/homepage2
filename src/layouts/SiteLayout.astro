@@ -1,5 +1,6 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
+import SiteBackground from "../components/SiteBackground.astro";
 
 const {
     title = import.meta.env.PUBLIC_TITLE,
@@ -23,6 +24,7 @@ const {
         <script is:inline>document.documentElement.classList.add("js");</script>
     </head>
     <body class="site">
+        <SiteBackground />
         <nav id="nav">
             <a class="brand" href="/">
                 <span class="brand-mark">FK</span>
@@ -168,6 +170,12 @@ const {
             }
 
             /* ---------- main shell ---------- */
+            .site #nav,
+            .site-main,
+            .site-footer {
+                position: relative;
+                z-index: 1;
+            }
             .site-main {
                 max-width: 820px;
                 margin: 0 auto;

@@ -1,5 +1,6 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
+import SiteBackground from "../components/SiteBackground.astro";
 
 const description =
     "Resume of Felix Krückel — hardware-based AI verification, compute governance and EU tech policy.";
@@ -50,7 +51,7 @@ const experience = [
         date: "2024 — present",
         loc: "Remote / Stanford, CA",
         points: [
-            "Awarded ≈$25,000 grant for AI policy projects; built interactive tools that let policymakers and executives engage with ML fundamentals.",
+            "Awarded ≈$25,000 grant for technical AI governance research; built interactive tools that let policymakers and executives engage with ML fundamentals.",
         ],
     },
     {
@@ -78,7 +79,7 @@ const experience = [
         loc: "Aachen, DE",
         points: [
             "Food-tech startup estimating nutrients and food sensitivities from photos; built the largest known dataset of its type (8,000+ meals).",
-            "Funded by the NRW Founders Scholarship; received a tech-exit offer — declined it to pivot into AI policy.",
+            "Funded by the NRW Founders Scholarship; received a tech-exit offer — declined it to pivot into technical AI governance research.",
         ],
     },
 ];
@@ -125,6 +126,7 @@ const skills = [
         />
     </head>
     <body class="resume">
+        <SiteBackground />
         <nav class="r-nav no-print">
             <a href="/" class="mono">← felkru.com</a>
             <button class="btn-accent mono" onclick="window.print()">Save as PDF</button>
@@ -236,6 +238,7 @@ const skills = [
                 text-transform: uppercase;
                 color: var(--muted);
             }
+            .r-nav, .sheet { position: relative; z-index: 1; }
             .r-nav {
                 display: flex;
                 justify-content: space-between;

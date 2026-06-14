@@ -37,6 +37,10 @@ function chrome() {
         <stop offset="0%" stop-color="#101826"/>
         <stop offset="100%" stop-color="${BG}"/>
       </radialGradient>
+      <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="0.7" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
     </defs>
     <rect width="${W}" height="${H}" fill="url(#vig)"/>`;
     for (let x = 64; x < W; x += 64) g += `<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="${GRID}" stroke-width="1"/>`;
@@ -329,31 +333,36 @@ function protocol() {
 // ---------------------------------------------------------------- openai crisis (bifurcation)
 function bifurcation() {
     let art = "";
-    const rMin = 2.8, rMax = 4.0;
-    const x0 = 80, x1 = W - 80, y0 = H - 90, y1 = 80;
+    const rMin = 2.75, rMax = 4.0;
+    const x0 = 70, x1 = W - 70, y0 = H - 80, y1 = 70;
+    const COLS = 1300;
+    // soft additive glow
+    art += `<g filter="url(#soft)">`;
     let dots = "";
-    for (let i = 0; i <= 620; i++) {
-        const r = rMin + ((rMax - rMin) * i) / 620;
+    for (let i = 0; i <= COLS; i++) {
+        const r = rMin + ((rMax - rMin) * i) / COLS;
         let x = 0.5;
-        for (let k = 0; k < 90; k++) x = r * x * (1 - x); // settle
+        for (let k = 0; k < 180; k++) x = r * x * (1 - x); // settle to attractor
         const seen = new Set();
-        for (let k = 0; k < 110; k++) {
+        const t = (r - rMin) / (rMax - rMin);
+        const px = x0 + (x1 - x0) * t;
+        for (let k = 0; k < 200; k++) {
             x = r * x * (1 - x);
-            const key = Math.round(x * 4000);
+            const key = Math.round(x * 6000);
             if (seen.has(key)) continue;
             seen.add(key);
-            const px = x0 + ((x1 - x0) * (r - rMin)) / (rMax - rMin);
             const py = y0 + (y1 - y0) * x;
-            const t = (r - rMin) / (rMax - rMin);
-            const col = t < 0.45 ? TEAL : t < 0.72 ? ICE : AMBER;
-            const op = t < 0.45 ? 0.85 : Math.max(0.16, 0.55 - (t - 0.45));
-            dots += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="1.05" fill="${col}" fill-opacity="${op.toFixed(2)}"/>`;
+            // teal in the periodic regime, cooling to ice, amber in chaos
+            const col = t < 0.5 ? TEAL : t < 0.74 ? lerpColor(TEAL, ICE, (t - 0.5) / 0.24) : lerpColor(ICE, AMBER, (t - 0.74) / 0.26);
+            const op = t < 0.62 ? 0.9 : Math.max(0.12, 0.5 - (t - 0.62) * 0.6);
+            const rad = t < 0.62 ? 1.0 : 0.7;
+            dots += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${rad}" fill="${col}" fill-opacity="${op.toFixed(2)}"/>`;
         }
     }
-    art += dots;
-    // marker at onset of chaos (r ≈ 3.57)
-    const rc = 3.5699, pxc = x0 + ((x1 - x0) * (rc - rMin)) / (rMax - rMin);
-    art += `<line x1="${pxc}" y1="60" x2="${pxc}" y2="${H - 60}" stroke="${AMBER}" stroke-width="1.5" stroke-opacity="0.6" stroke-dasharray="4 6"/>`;
+    art += dots + `</g>`;
+    // onset-of-chaos marker (r ≈ 3.5699)
+    const rc = 3.5699, pxc = x0 + (x1 - x0) * (rc - rMin) / (rMax - rMin);
+    art += `<line x1="${pxc}" y1="56" x2="${pxc}" y2="${H - 56}" stroke="${AMBER}" stroke-width="1.5" stroke-opacity="0.55" stroke-dasharray="4 6"/>`;
     return art;
 }
 
@@ -376,20 +385,116 @@ function rankings() {
         }
         order.forEach((uni, rank) => series[uni].push([xs[c], 120 + (rank * (H - 240)) / (rows - 1)]));
     }
-    series.forEach((pts, i) => {
-        const col = i === 3 ? AMBER : lerpColor(TEAL, VIOLET, i / (rows - 1));
-        const wgt = i === 3 ? 3 : 1.6;
-        // smooth bezier between columns
+    // column guide lines + tick caps
+    for (const x of xs) {
+        art += `<line x1="${x}" y1="84" x2="${x}" y2="${H - 84}" stroke="rgba(180,200,230,0.09)" stroke-width="1"/>`;
+        art += `<rect x="${x - 9}" y="74" width="18" height="3" fill="rgba(180,200,230,0.25)"/>`;
+    }
+    const pathOf = (pts) => {
         let d = `M ${pts[0][0]} ${pts[0][1]}`;
         for (let k = 1; k < pts.length; k++) {
             const [xa, ya] = pts[k - 1], [xb, yb] = pts[k];
             const mx = (xa + xb) / 2;
             d += ` C ${mx} ${ya}, ${mx} ${yb}, ${xb} ${yb}`;
         }
-        art += `<path d="${d}" fill="none" stroke="${col}" stroke-width="${wgt}" stroke-opacity="${i === 3 ? 0.95 : 0.55}"/>`;
-        for (const [x, y] of pts) art += `<circle cx="${x}" cy="${y}" r="${i === 3 ? 4.5 : 3}" fill="${BG}" stroke="${col}" stroke-width="2"/>`;
+        return d;
+    };
+    series.forEach((pts, i) => {
+        const hot = i === 3;
+        const col = hot ? AMBER : lerpColor(TEAL, VIOLET, i / (rows - 1));
+        const d = pathOf(pts);
+        if (hot) art += `<path d="${d}" fill="none" stroke="${col}" stroke-width="7" stroke-opacity="0.18" filter="url(#soft)"/>`;
+        art += `<path d="${d}" fill="none" stroke="${col}" stroke-width="${hot ? 3 : 1.6}" stroke-opacity="${hot ? 0.95 : 0.5}"/>`;
     });
-    for (const x of xs) art += `<line x1="${x}" y1="84" x2="${x}" y2="${H - 84}" stroke="rgba(180,200,230,0.10)" stroke-width="1"/>`;
+    series.forEach((pts, i) => {
+        const hot = i === 3;
+        const col = hot ? AMBER : lerpColor(TEAL, VIOLET, i / (rows - 1));
+        for (const [x, y] of pts) {
+            art += `<circle cx="${x}" cy="${y}" r="${hot ? 5 : 3.2}" fill="${BG}" stroke="${col}" stroke-width="2"/>`;
+            if (hot) art += `<circle cx="${x}" cy="${y}" r="2" fill="${col}"/>`;
+        }
+    });
+    return art;
+}
+
+// ---------------------------------------------------------------- aero (F1inSchools): potential flow past a body
+function aero() {
+    let art = "";
+    const a = 95;                 // body radius
+    const cx = W * 0.5, cy = H * 0.5;
+    const U = 1;
+    // streamlines: integrate velocity field of flow past a cylinder
+    const ys = [];
+    for (let k = -7; k <= 7; k++) ys.push(cy + k * 42);
+    art += `<g filter="url(#soft)">`;
+    for (const y0 of ys) {
+        const pts = [];
+        let x = 40, y = y0;
+        for (let s = 0; s < 600 && x < W - 30; s++) {
+            const rx = x - cx, ry = y - cy;
+            const r2 = rx * rx + ry * ry;
+            let u, v;
+            if (r2 < a * a) { x += 3; continue; } // inside body: skip
+            u = U * (1 - (a * a) * (rx * rx - ry * ry) / (r2 * r2));
+            v = -U * (2 * a * a * rx * ry / (r2 * r2));
+            const sp = Math.hypot(u, v) || 1;
+            x += (u / sp) * 3.0;
+            y += (v / sp) * 3.0;
+            pts.push([x, y]);
+        }
+        if (pts.length > 4) {
+            const dev = Math.abs(y0 - cy);
+            const col = dev < 50 ? AMBER : lerpColor(TEAL, ICE, dev / 300);
+            art += poly(pts, col, 1.3, dev < 50 ? 0.85 : 0.5);
+        }
+    }
+    art += `</g>`;
+    // the body: a teardrop/wing cross-section
+    art += `<path d="M ${cx - a} ${cy} Q ${cx - a} ${cy - a * 0.78} ${cx} ${cy - a * 0.78} Q ${cx + a * 1.5} ${cy - a * 0.7} ${cx + a * 1.9} ${cy} Q ${cx + a * 1.5} ${cy + a * 0.7} ${cx} ${cy + a * 0.78} Q ${cx - a} ${cy + a * 0.78} ${cx - a} ${cy} Z" fill="#0c1622" stroke="${TEAL}" stroke-width="1.6" stroke-opacity="0.9"/>`;
+    // stagnation points
+    art += `<circle cx="${cx - a}" cy="${cy}" r="3" fill="${AMBER}"/><circle cx="${cx + a * 1.9}" cy="${cy}" r="3" fill="${AMBER}"/>`;
+    return art;
+}
+
+// ---------------------------------------------------------------- hemicycle (Europawahl): parliament seating
+function hemicycle() {
+    const rnd = mulberry32(2024);
+    let art = "";
+    const cx = W / 2, cy = H - 78;
+    const rInner = 90, rOuter = Math.min(W, H * 2) * 0.42;
+    const ROWS = 7;
+    // political blocks across the spectrum, left → right (by angle)
+    const blocks = [
+        { frac: 0.16, col: ROSE },
+        { frac: 0.2, col: VIOLET },
+        { frac: 0.22, col: ICE },
+        { frac: 0.24, col: TEAL },
+        { frac: 0.18, col: AMBER },
+    ];
+    const cum = [];
+    let acc = 0;
+    for (const b of blocks) { cum.push([acc, acc + b.frac, b.col]); acc += b.frac; }
+    for (let row = 0; row < ROWS; row++) {
+        const r = rInner + (rOuter - rInner) * (row / (ROWS - 1));
+        const seats = Math.round(8 + r / 14);
+        for (let i = 0; i < seats; i++) {
+            const f = seats === 1 ? 0.5 : i / (seats - 1);
+            const ang = Math.PI - f * Math.PI; // π (left) → 0 (right)
+            const px = cx + Math.cos(ang) * r;
+            const py = cy - Math.sin(ang) * r;
+            const blk = cum.find(([lo, hi]) => f >= lo && f < hi) || cum[cum.length - 1];
+            const jitter = 0.85 + rnd() * 0.15;
+            art += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="3.4" fill="${blk[2]}" fill-opacity="${jitter.toFixed(2)}"/>`;
+        }
+    }
+    // baseline + a faint star ring nod to the EU flag
+    art += `<line x1="${cx - rOuter - 6}" y1="${cy + 2}" x2="${cx + rOuter + 6}" y2="${cy + 2}" stroke="rgba(180,200,230,0.18)" stroke-width="1"/>`;
+    for (let k = 0; k < 12; k++) {
+        const ang = Math.PI - (k / 11) * Math.PI;
+        const px = cx + Math.cos(ang) * (rInner - 34);
+        const py = cy - Math.sin(ang) * (rInner - 34);
+        if (py < cy - 6) art += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="1.4" fill="${AMBER}" fill-opacity="0.7"/>`;
+    }
     return art;
 }
 
@@ -465,6 +570,8 @@ const jobs = {
     "warden_hero.png": protocol,
     "openai_crisis.png": bifurcation,
     "rankings_hero.png": rankings,
+    "f1inschools_hero.png": aero,
+    "europawahl_hero.png": hemicycle,
     "verify_hero.png": verify,
     "default.png": flowfield,
 };
