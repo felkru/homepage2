@@ -26,14 +26,17 @@
         const ctx = canvas.getContext("2d");
         const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         const TEAL = "94,234,212", ICE = "125,211,252", AMBER = "245,166,35";
+        const COLORS = [TEAL, ICE, AMBER];
+        const TRAIL = 44, HEAD = 14;
         let W = 0, H = 0, pts = [], built = false;
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        // background is dim/soft — render at low DPR to keep fill-rate cheap
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
         let seed = 99;
         const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
 
         function resize() {
             W = window.innerWidth; H = window.innerHeight;
-            canvas.width = W * dpr; canvas.height = H * dpr;
+            canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
         const spawn = (p) => {
@@ -45,7 +48,7 @@
         };
         function build() {
             resize();
-            const N = Math.min(170, Math.max(60, Math.floor((W * H) / 11000)));
+            const N = Math.min(150, Math.max(50, Math.floor((W * H) / 13000)));
             pts = Array.from({ length: N }, () => spawn());
             built = true;
         }
@@ -54,37 +57,51 @@
             Math.cos(y * 0.0021 - t * 0.00003) * 1.7 +
             Math.sin((x + y) * 0.0011) * 1.3;
 
+        // batch every segment into one Path2D per colour (2 passes: faint body + brighter head)
+        // → ~6 stroke() rasterisations per frame instead of thousands.
+        const body = {}, head = {};
         function step(t) {
             ctx.clearRect(0, 0, W, H);
+            for (const c of COLORS) { body[c] = new Path2D(); head[c] = new Path2D(); }
             for (const p of pts) {
                 const a = ang(p.x, p.y, t);
                 p.x += Math.cos(a) * 0.55;   // slow drift
                 p.y += Math.sin(a) * 0.55;
-                p.trail.push([p.x, p.y]);
-                if (p.trail.length > 50) p.trail.shift();
+                const tr = p.trail;
+                tr.push(p.x, p.y);
+                if (tr.length > TRAIL * 2) { tr.shift(); tr.shift(); }
                 p.life--;
-                for (let i = 1; i < p.trail.length; i++) {
-                    const al = (i / p.trail.length) * 0.5;
-                    ctx.strokeStyle = `rgba(${p.c},${al})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(p.trail[i - 1][0], p.trail[i - 1][1]);
-                    ctx.lineTo(p.trail[i][0], p.trail[i][1]);
-                    ctx.stroke();
+                const n = tr.length >> 1;
+                if (n > 1) {
+                    const bp = body[p.c];
+                    bp.moveTo(tr[0], tr[1]);
+                    for (let i = 1; i < n; i++) bp.lineTo(tr[i * 2], tr[i * 2 + 1]);
+                    const hs = Math.max(1, n - HEAD);
+                    const hp = head[p.c];
+                    hp.moveTo(tr[(hs - 1) * 2], tr[(hs - 1) * 2 + 1]);
+                    for (let i = hs; i < n; i++) hp.lineTo(tr[i * 2], tr[i * 2 + 1]);
                 }
                 if (p.life < 0 || p.x < -20 || p.x > W + 20 || p.y < -20 || p.y > H + 20) spawn(p);
+            }
+            ctx.lineWidth = 1;
+            ctx.lineCap = "round";
+            for (const c of COLORS) {
+                ctx.strokeStyle = `rgba(${c},0.13)`; ctx.stroke(body[c]);
+                ctx.strokeStyle = `rgba(${c},0.42)`; ctx.stroke(head[c]);
             }
         }
 
         window.addEventListener("resize", () => { if (built) build(); });
 
+        // cap to ~60fps (also halves work on 120Hz panels)
+        let lastDraw = 0;
         function loop(t) {
-            if (!document.hidden) step(t);
+            if (!document.hidden && t - lastDraw >= 15.5) { lastDraw = t; step(t); }
             requestAnimationFrame(loop);
         }
         requestAnimationFrame(() => {
             build();
-            if (reduced) { for (let i = 0; i < 260; i++) step(i * 16); }
+            if (reduced) { for (let i = 0; i < 220; i++) step(i * 16); }
             else loop(performance.now());
         });
     })();
