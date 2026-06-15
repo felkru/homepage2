@@ -324,7 +324,8 @@ const skills = [
             .r-skill strong { color: var(--text); font-weight: 600; }
 
             @media print {
-                @page { margin: 14mm; }
+                /* per-page margins for the normal "Default" Save-as-PDF flow */
+                @page { margin: 15mm; }
                 html, body, .resume {
                     background: #fff !important;
                     -webkit-print-color-adjust: exact;
@@ -338,7 +339,13 @@ const skills = [
                     --line: #ccc;
                 }
                 .no-print { display: none !important; }
-                .sheet { padding: 0 !important; max-width: none; }
+                /* fallback inset so content never touches the paper edge even if
+                   the print dialog's Margins are set to None */
+                .sheet {
+                    padding: 8mm 0 !important;
+                    max-width: 180mm;
+                    margin: 0 auto !important;
+                }
                 section { margin-top: 1.3rem; break-inside: avoid; }
                 h2.mono { break-after: avoid; }
                 .r-item, .r-list li { break-inside: avoid; }
