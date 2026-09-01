@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How large is a pixel?</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; }
+  #px {
+    position: absolute; top: 50%; left: 50%;
+    width: 1px; height: 1px; background: #fff;
+  }
+  #f {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    width: 220px; accent-color: #444;
+  }
+</style>
+</head>
+<body>
+  <div id="px"></div>
+  <input id="f" type="range" min="-1" max="6" step="0.01" value="1">
+<script>
+  const px = document.getElementById('px');
+  const f = document.getElementById('f');
+  let freq = 2 ** +f.value;   // 0.5 .. 64 Hz, log scale
+  let on = true;
+  let next = performance.now();
+  f.oninput = () => { freq = 2 ** +f.value; next = performance.now(); };
+  function tick(now) {
+    const half = 500 / freq;
+    if (now >= next) {
+      on = !on;
+      px.style.background = on ? '#fff' : '#000';
+      next += half * Math.max(1, Math.floor((now - next) / half) + 1);
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+</script>
+</body>
+</html>
