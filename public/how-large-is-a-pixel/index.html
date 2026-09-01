@@ -27,6 +27,16 @@
   let on = true;
   let next = performance.now();
   f.oninput = () => { freq = 2 ** +f.value; next = performance.now(); };
+  let dx = 0, dy = 0;
+  addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') dx--;
+    else if (e.key === 'ArrowRight') dx++;
+    else if (e.key === 'ArrowUp') dy--;
+    else if (e.key === 'ArrowDown') dy++;
+    else return;
+    e.preventDefault();
+    px.style.transform = `translate(${dx}px, ${dy}px)`;
+  });
   function tick(now) {
     const half = 500 / freq;
     if (now >= next) {
