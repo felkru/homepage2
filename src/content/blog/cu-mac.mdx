@@ -1,0 +1,34 @@
+---
+title: "CU mac: let Claude use your Mac, and stay in charge"
+description: "A small menu bar app that lets Claude Code click, type and look around in your Mac's apps, on a screen you pick, with Esc to stop it and Touch ID-protected limits for every app."
+pubDate: "Oct 10 2026"
+heroImage: "../../assets/thumbs/cu_mac_hero.png"
+tags: ["Language: English", "AI Safety", "macOS", "Claude Code", "contains AI content"]
+published: true
+homepage: true
+---
+
+Claude Code is great in the terminal, but a lot of my day happens in apps that have no command line:
+Mail, System Settings, web dashboards, the occasional ancient admin panel. Built-in computer use isn't
+available on my plan, so I built my own: **CU mac**, a menu bar app plus a `cu` command that Claude
+Code can call to take screenshots, click, type and scroll.
+
+The interesting part wasn't the clicking. It was making it feel safe to let an AI do that on the
+machine I actually work on:
+
+- **Always visible.** While the AI works, a glowing ring runs around its screen, and a small note
+  narrates every step ("Opening Mail", "Drafting reply").
+- **Esc stops it.** One key, any time. Afterwards it has to ask before continuing, and you can tell
+  it not to ask again for the rest of the task. Play/pause gives you a minute of quiet.
+- **You keep working.** It waits until you stop typing, acts, then hands your app and mouse straight back.
+- **One screen.** With an external display, you pick the screen the AI may use. Yours stays yours.
+- **Limits per app and per website**: Hidden, Can only look, Can click, Full control. Password
+  managers are hidden by default, and setup suggests hiding banking and messaging apps. Only you can
+  loosen a limit, and only with Touch ID; the AI can merely ask, in plain words, with the risk spelled out.
+- **You sign in, not the AI.** When it hits a login, it sends a popup to your screen that takes you
+  to the right window.
+
+**Download:** [cu.felkru.com](https://cu.felkru.com). Free, macOS 14 or later, Apple silicon and
+Intel. You'll need [Claude Code](https://claude.com/claude-code); CU mac sets up the rest on first launch.
+
+CU mac is an independent project and isn't affiliated with Anthropic. It's early, so feedback is very welcome.
