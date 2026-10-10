@@ -4,6 +4,8 @@ import remarkToc from "remark-toc";
 import rehypeToc from "rehype-toc";
 import rehypeSlug from "rehype-slug";
 
+const hasLink = (node) => node.tagName === "a" || (node.children ?? []).some(hasLink);
+
 export default {
     remarkPlugins: [
         remarkMath,
@@ -21,6 +23,8 @@ export default {
                     link: "toc-link",
                     idPrefix: '',
                 },
+                // No headings (short posts): leave the table of contents out instead of an empty box.
+                customizeTOC: (toc) => (hasLink(toc) ? toc : false),
             },
         ],
     ]
