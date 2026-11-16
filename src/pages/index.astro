@@ -4,7 +4,7 @@ import SiteBackground from "../components/SiteBackground.astro";
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import felixPro from "../assets/felix_pro.jpg";
-import profileNew from "../assets/profile_new.jpg";
+import faceCircle from "../assets/face_circle.png";
 
 const posts = (await getCollection("blog"))
     .filter((p) => p.data.published && p.data.homepage)
@@ -138,7 +138,7 @@ const timeline = [
                     <em>hardware that can’t be lied to.</em>
                 </h1>
                 <div class="hero-intro" data-hero>
-                    <Image class="hero-avatar" src={profileNew} alt="Felix Krückel" width={128} height={128} loading="eager" />
+                    <Image class="hero-avatar" src={faceCircle} alt="Felix Krückel" width={160} height={160} loading="eager" />
                     <p class="hero-sub">
                         I’m Felix Krückel. I build instruments that verify what’s actually running
                         on AI compute — and work with EU lawmakers to turn verification into
@@ -611,11 +611,12 @@ const timeline = [
                 margin: 0 0 1.4rem;
             }
             .hero-avatar {
-                width: 64px;
-                height: 64px;
+                width: 76px;
+                height: 76px;
                 flex: none;
                 border-radius: 50%;
                 object-fit: cover;
+                object-position: center;
                 border: 1px solid rgba(255, 226, 166, 0.55);
                 box-shadow: 0 0 0 4px rgba(255, 180, 84, 0.12), 0 8px 30px -8px rgba(255, 150, 90, 0.55);
             }
@@ -1117,7 +1118,7 @@ const timeline = [
                 .brand-name { display: none; }
                 .glance { grid-template-columns: repeat(2, 1fr); }
                 .hero-intro { align-items: flex-start; }
-                .hero-avatar { width: 52px; height: 52px; }
+                .hero-avatar { width: 60px; height: 60px; }
                 .bg-grid { grid-template-columns: 1fr; }
                 .bg-photo { position: static; max-width: 420px; }
                 .testbed { grid-template-columns: 1fr; }
