@@ -4,6 +4,7 @@ import SiteBackground from "../components/SiteBackground.astro";
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import felixPro from "../assets/felix_pro.jpg";
+import profileNew from "../assets/profile_new.jpg";
 
 const posts = (await getCollection("blog"))
     .filter((p) => p.data.published && p.data.homepage)
@@ -53,6 +54,13 @@ const specs = [
     ["Root of trust", "TPM attestation"],
 ];
 
+const stats = [
+    ["12", "GPUs instrumented in the verification testbed"],
+    ["$25k", "Stanford CAIS grant for technical AI governance"],
+    ["#1", "OpenMP/CUDA Optimization Challenge 2026"],
+    ["4", "semesters to a B.Sc. — fastest 3% of the cohort"],
+];
+
 const recs = [
     {
         title: "Do an Apart Research hackathon — with friends",
@@ -92,13 +100,14 @@ const timeline = [
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap"
             rel="stylesheet"
         />
         <script is:inline>document.documentElement.classList.add("js");</script>
     </head>
     <body class="landing">
         <SiteBackground />
+        <div id="dawn" aria-hidden="true"></div>
         <!-- NAV -->
         <nav id="nav">
             <a class="brand" href="/">
@@ -116,6 +125,7 @@ const timeline = [
 
         <!-- HERO -->
         <header class="hero">
+            <div class="hero-sun" aria-hidden="true"></div>
             <canvas id="field"></canvas>
             <div class="hero-fade"></div>
             <div class="hero-inner">
@@ -127,11 +137,14 @@ const timeline = [
                     AI governance needs<br />
                     <em>hardware that can’t be lied to.</em>
                 </h1>
-                <p class="hero-sub" data-hero>
-                    I’m Felix Krückel. I build instruments that verify what’s actually running
-                    on AI compute — and work with EU lawmakers to turn verification into
-                    enforceable policy.
-                </p>
+                <div class="hero-intro" data-hero>
+                    <Image class="hero-avatar" src={profileNew} alt="Felix Krückel" width={128} height={128} loading="eager" />
+                    <p class="hero-sub">
+                        I’m Felix Krückel. I build instruments that verify what’s actually running
+                        on AI compute — and work with EU lawmakers to turn verification into
+                        enforceable policy.
+                    </p>
+                </div>
                 <p class="hero-roles mono" data-hero>
                     EU Policy Advisor · Stanford CAIS · CORDA, ETH Zürich
                 </p>
@@ -144,6 +157,18 @@ const timeline = [
         </header>
 
         <main>
+            <!-- AT A GLANCE -->
+            <section class="glance" aria-label="At a glance">
+                {
+                    stats.map(([n, label]) => (
+                        <div class="glance-item" data-reveal>
+                            <span class="glance-num">{n}</span>
+                            <span class="glance-label mono">{label}</span>
+                        </div>
+                    ))
+                }
+            </section>
+
             <!-- 01 NOW -->
             <section id="now" class="section">
                 <div class="section-head" data-reveal>
@@ -381,7 +406,12 @@ const timeline = [
                 --teal: #5eead4;
                 --ice: #7dd3fc;
                 --amber: #f5a623;
+                --coral: #ff7a6b;
+                --gold: #ffb454;
+                --glow: #ffe2a6;
+                --dawn: linear-gradient(100deg, #ff7a6b 0%, #ffb454 52%, #ffe2a6 100%);
                 --font-display: "Space Grotesk", system-ui, sans-serif;
+                --font-serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
                 --font-mono: "IBM Plex Mono", ui-monospace, monospace;
                 margin: 0;
                 background: var(--bg);
@@ -460,19 +490,21 @@ const timeline = [
                 font-size: 0.8rem;
                 letter-spacing: 0.04em;
                 text-decoration: none;
-                padding: 0.62rem 1.15rem;
-                border-radius: 6px;
+                padding: 0.68rem 1.3rem;
+                border-radius: 999px;
                 transition: transform 0.15s, background 0.2s, color 0.2s, border-color 0.2s;
                 white-space: nowrap;
             }
             .btn-accent {
-                background: var(--teal);
-                color: #06241d;
+                background: var(--dawn);
+                color: #2a1206;
                 font-weight: 500;
+                box-shadow: 0 6px 28px -10px rgba(255, 150, 90, 0.7);
             }
             .btn-accent:hover {
                 transform: translateY(-2px);
-                background: #8ef2e0;
+                filter: brightness(1.08);
+                box-shadow: 0 10px 34px -10px rgba(255, 150, 90, 0.9);
             }
             .btn-ghost {
                 color: var(--text);
@@ -497,6 +529,14 @@ const timeline = [
                 min-height: 100svh;
                 display: flex;
                 align-items: center;
+            }
+            .hero-sun {
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                background:
+                    radial-gradient(ellipse 30% 34% at 84% 44%, rgba(255, 232, 180, 0.62), transparent 70%),
+                    radial-gradient(ellipse 62% 66% at 82% 48%, rgba(255, 170, 90, 0.5), rgba(255, 122, 107, 0.28) 36%, rgba(132, 92, 220, 0.15) 60%, transparent 78%);
             }
             #field {
                 position: absolute;
@@ -535,31 +575,56 @@ const timeline = [
                 width: 7px;
                 height: 7px;
                 border-radius: 50%;
-                background: var(--teal);
-                box-shadow: 0 0 10px var(--teal);
+                background: var(--gold);
+                box-shadow: 0 0 10px var(--gold);
                 animation: pulse 2.4s ease-in-out infinite;
             }
             @keyframes pulse {
                 50% { opacity: 0.35; }
             }
             .hero h1 {
-                font-size: clamp(2.4rem, 6.4vw, 5.2rem);
-                line-height: 1.04;
-                font-weight: 700;
-                letter-spacing: -0.025em;
-                margin: 0 0 1.6rem;
-                max-width: 17ch;
+                font-family: var(--font-serif);
+                font-size: clamp(3rem, 8.4vw, 7.6rem);
+                line-height: 0.98;
+                font-weight: 400;
+                letter-spacing: -0.012em;
+                margin: 0 0 2rem;
+                max-width: 15ch;
+                text-wrap: balance;
             }
-            .hero h1 em {
-                font-style: normal;
-                color: var(--teal);
+            .hero h1 em,
+            .lede em,
+            .glance-num {
+                font-style: italic;
+                background: var(--dawn);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                -webkit-box-decoration-break: clone;
+                box-decoration-break: clone;
+                padding-right: 0.06em;
+            }
+            .hero-intro {
+                display: flex;
+                align-items: center;
+                gap: 1.2rem;
+                margin: 0 0 1.4rem;
+            }
+            .hero-avatar {
+                width: 64px;
+                height: 64px;
+                flex: none;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 1px solid rgba(255, 226, 166, 0.55);
+                box-shadow: 0 0 0 4px rgba(255, 180, 84, 0.12), 0 8px 30px -8px rgba(255, 150, 90, 0.55);
             }
             .hero-sub {
                 font-size: clamp(1.02rem, 1.6vw, 1.25rem);
                 line-height: 1.6;
-                color: #c3ccda;
-                max-width: 56ch;
-                margin: 0 0 1.4rem;
+                color: #d3dae6;
+                max-width: 54ch;
+                margin: 0;
             }
             .hero-roles {
                 margin: 0 0 2.4rem;
@@ -623,12 +688,14 @@ const timeline = [
                 margin-bottom: clamp(2rem, 4vw, 3.2rem);
             }
             .section-head .index {
-                color: var(--teal);
+                color: var(--gold);
             }
             .section-head h2 {
-                font-size: clamp(1.7rem, 3.4vw, 2.6rem);
-                font-weight: 600;
-                letter-spacing: -0.02em;
+                font-family: var(--font-serif);
+                font-size: clamp(2.3rem, 4.8vw, 3.8rem);
+                font-weight: 400;
+                letter-spacing: -0.01em;
+                line-height: 1;
                 margin: 0;
                 white-space: nowrap;
             }
@@ -639,15 +706,53 @@ const timeline = [
                 transform-origin: left;
             }
             .lede {
-                font-size: clamp(1.15rem, 2.2vw, 1.55rem);
-                line-height: 1.55;
-                max-width: 46ch;
-                color: #c3ccda;
-                margin: 0 0 clamp(2.2rem, 4vw, 3.4rem);
+                font-family: var(--font-serif);
+                font-size: clamp(1.7rem, 3.5vw, 2.9rem);
+                line-height: 1.18;
+                letter-spacing: -0.005em;
+                max-width: 30ch;
+                color: var(--text);
+                margin: 0 0 clamp(2.4rem, 4.5vw, 3.8rem);
+                text-wrap: pretty;
             }
-            .lede em {
-                font-style: normal;
-                color: var(--teal);
+
+            /* at a glance */
+            .glance {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: clamp(1rem, 3vw, 2.5rem) clamp(1.2rem, 5vw, 4rem) 0;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: clamp(1rem, 3vw, 2.6rem);
+            }
+            .glance-item {
+                display: flex;
+                flex-direction: column;
+                gap: 0.7rem;
+                padding-top: 1.2rem;
+                border-top: 1px solid var(--line-strong);
+            }
+            .glance-num {
+                font-family: var(--font-serif);
+                font-size: clamp(2.8rem, 6vw, 5rem);
+                line-height: 0.95;
+                align-self: flex-start;
+            }
+            .landing .glance-label {
+                line-height: 1.7;
+                max-width: 24ch;
+            }
+
+            /* dawn: warm light that rises behind the page as you scroll */
+            #dawn {
+                position: fixed;
+                inset: 0;
+                z-index: 0;
+                pointer-events: none;
+                opacity: 0;
+                background:
+                    radial-gradient(ellipse 70% 40% at 50% 112%, rgba(255, 226, 166, 0.34), transparent 70%),
+                    radial-gradient(ellipse 135% 78% at 50% 120%, rgba(255, 150, 90, 0.4), rgba(255, 122, 107, 0.2) 40%, rgba(124, 84, 210, 0.1) 64%, transparent 80%);
             }
 
             /* roles */
@@ -657,6 +762,8 @@ const timeline = [
                 gap: 1px;
                 background: var(--line);
                 border: 1px solid var(--line);
+                border-radius: 18px;
+                overflow: hidden;
             }
             .role-card {
                 background: var(--bg);
@@ -667,10 +774,12 @@ const timeline = [
                 text-decoration: none;
             }
             .role-card:hover {
-                background: var(--panel);
+                background:
+                    radial-gradient(ellipse 90% 80% at 50% 120%, rgba(255, 150, 90, 0.16), transparent 70%),
+                    var(--panel);
             }
             .role-card.is-link:hover h3 {
-                color: var(--teal);
+                color: var(--glow);
             }
             .role-arrow {
                 color: var(--muted);
@@ -689,12 +798,15 @@ const timeline = [
                 margin-bottom: 1.4rem;
             }
             .role-card h3 {
-                font-size: 1.08rem;
-                font-weight: 600;
-                margin: 0 0 0.2rem;
+                font-family: var(--font-serif);
+                font-size: 1.55rem;
+                font-weight: 400;
+                line-height: 1.15;
+                margin: 0 0 0.35rem;
+                transition: color 0.2s;
             }
             .role-role {
-                color: var(--teal);
+                color: var(--gold);
                 font-size: 0.92rem;
                 margin: 0 0 0.75rem;
             }
@@ -730,14 +842,18 @@ const timeline = [
                     var(--panel);
                 padding: clamp(1.5rem, 3.5vw, 2.8rem);
                 margin-bottom: clamp(2.5rem, 5vw, 4rem);
+                border-radius: 18px;
             }
             .testbed-label {
                 color: var(--amber);
                 margin: 0 0 1rem;
             }
             .testbed-info h3 {
-                font-size: clamp(1.3rem, 2.4vw, 1.8rem);
-                letter-spacing: -0.015em;
+                font-family: var(--font-serif);
+                font-weight: 400;
+                font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+                line-height: 1.08;
+                letter-spacing: -0.005em;
                 margin: 0 0 0.9rem;
             }
             .testbed-info p {
@@ -821,6 +937,7 @@ const timeline = [
             }
             .post-img {
                 border: 1px solid var(--line);
+                border-radius: 14px;
                 overflow: hidden;
                 margin-bottom: 0.95rem;
             }
@@ -873,7 +990,7 @@ const timeline = [
                 height: auto;
                 display: block;
                 border: 1px solid var(--line);
-                filter: saturate(0.88) contrast(1.02);
+                border-radius: 18px;
             }
             .bg-photo figcaption {
                 margin-top: 0.7rem;
@@ -924,12 +1041,14 @@ const timeline = [
                 align-items: baseline;
             }
             .rec-num {
-                color: var(--teal);
+                color: var(--gold);
                 min-width: 3.2rem;
             }
             .recs h3 {
-                font-size: clamp(1.05rem, 1.8vw, 1.3rem);
-                font-weight: 600;
+                font-family: var(--font-serif);
+                font-size: clamp(1.5rem, 2.6vw, 2rem);
+                font-weight: 400;
+                line-height: 1.15;
                 margin: 0 0 0.45rem;
             }
             .recs p {
@@ -949,7 +1068,12 @@ const timeline = [
 
             /* contact + footer */
             .contact {
-                padding-bottom: clamp(4rem, 8vw, 7rem);
+                padding-bottom: clamp(6rem, 12vw, 10rem);
+            }
+            .contact .lede {
+                font-size: clamp(2.2rem, 5.4vw, 4.6rem);
+                line-height: 1.04;
+                max-width: 20ch;
             }
             .contact-row {
                 display: flex;
@@ -991,6 +1115,9 @@ const timeline = [
             @media (max-width: 760px) {
                 .nav-links { display: none; }
                 .brand-name { display: none; }
+                .glance { grid-template-columns: repeat(2, 1fr); }
+                .hero-intro { align-items: flex-start; }
+                .hero-avatar { width: 52px; height: 52px; }
                 .bg-grid { grid-template-columns: 1fr; }
                 .bg-photo { position: static; max-width: 420px; }
                 .testbed { grid-template-columns: 1fr; }
@@ -1004,6 +1131,7 @@ const timeline = [
                     transform: none !important;
                 }
                 .dot, .scroll-line::after { animation: none; }
+                #dawn { opacity: 0.55; }
             }
         </style>
 
@@ -1086,9 +1214,12 @@ const timeline = [
                     void main() {
                         vec3 idle = vec3(0.055, 0.085, 0.125);
                         vec3 teal = vec3(0.369, 0.918, 0.831);
-                        vec3 amber = vec3(0.961, 0.651, 0.137);
-                        vec3 col = mix(idle, teal, smoothstep(0.06, 1.0, vU) * 0.95);
-                        col = mix(col, amber, vScan * 0.85);
+                        vec3 gold = vec3(1.0, 0.74, 0.38);
+                        vec3 coral = vec3(1.0, 0.48, 0.42);
+                        // busy cores glow teal; the hottest peaks catch the dawn light
+                        vec3 col = mix(idle, teal, smoothstep(0.06, 0.8, vU) * 0.9);
+                        col = mix(col, gold, smoothstep(0.72, 1.2, vU) * 0.92);
+                        col = mix(col, mix(coral, gold, 0.65), vScan * 0.85);
                         // fake lighting: bright tops, dim sides
                         float shade = 0.35 + 0.65 * max(vN.y, 0.0) + 0.12 * max(vN.x, 0.0);
                         gl_FragColor = vec4(col * shade, 1.0);
@@ -1135,7 +1266,7 @@ const timeline = [
                 // desktop: die anchored bottom-right, clear of the headline; mobile: low and centered
                 camera.position.set(0, 12, 22);
                 camera.lookAt(2, -3, 0);
-                die.position.set(wide ? 13.5 : 0, wide ? -7.4 : -7, wide ? -1 : -3);
+                die.position.set(wide ? 14.6 : 0, wide ? -7.4 : -7, wide ? -1 : -3);
                 die.scale.setScalar(wide ? 0.95 : 0.7);
                 camera.updateProjectionMatrix();
             }
@@ -1201,6 +1332,14 @@ const timeline = [
                     ease: "power3.out",
                     stagger: 0.12,
                     delay: 0.15,
+                });
+
+                // sunrise behind the die, then dawn climbs the page with the reader
+                gsap.from(".hero-sun", { opacity: 0, yPercent: 16, duration: 2.8, ease: "power2.out", delay: 0.2 });
+                gsap.to("#dawn", {
+                    opacity: 1,
+                    ease: "none",
+                    scrollTrigger: { trigger: "main", start: "top 60%", end: "bottom bottom", scrub: true },
                 });
 
                 gsap.utils.toArray("[data-reveal]").forEach((el) => {
